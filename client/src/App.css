@@ -1,0 +1,301 @@
+@import url('https://fonts.googleapis.com/css2?family=Urbanist&display=swap');
+/* font-family: 'Urbanist', sans-serif; */
+:root{
+--primary:'#5774CB';
+--secondary: '#828F9B';
+}
+ul{
+list-style: none;
+display: flex;
+flex-direction: column;
+gap: 3rem;
+}
+.App {
+  text-align: center;
+  background-color: #F5F5F9;
+  font-family: 'Urbanist', sans-serif;
+}
+
+form{
+display: flex;
+flex-direction: column;
+gap: 1rem;
+justify-content: center;
+align-items: center;
+}
+form input{
+padding: .5rem;
+border-radius: 7px;
+border: 1px solid #000;
+}
+.form-group{
+display: flex;
+flex-direction: column;
+gap: 2rem;
+width: 100%;
+}
+.error{
+font-size: .8rem;
+color: rgb(235, 0, 0);
+}
+#formLogin{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* min-height: 100vh; */
+  background: #F5F5F9;
+}
+/*************************DashBoard************************/
+/* /____________________Aside______________________/ */
+.main{
+width: 100%;
+padding: 1rem 2rem !important;
+display: flex;
+flex-direction: column;
+gap: 2rem;
+}
+#dashboard{
+background-color: #F2F5FF;
+display:flex;
+/* min-height: 100vh; */
+}
+#dashboard .aside-left{
+padding: 1rem 1rem;
+background-color:#fff ;
+
+}
+.aside-left .aside #list-items  ul{
+list-style: none !important;
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+gap: 2rem;
+}
+.aside{
+padding: 1rem;
+max-height: 100vh;
+display: flex;
+flex-direction: column;
+gap: 3rem;
+}
+.item-asiede #span{
+color: #828F9B;
+font-size: 1.1rem;
+text-decoration: none;
+}
+.item-asiede{
+display: flex;
+align-items: center;
+gap: 1rem;
+}
+#nav{ 
+display: flex; justify-content: space-between; background-color: #fff; padding: 1rem 2rem; box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px; border-radius:15px ; -webkit-border-radius:15px ; -moz-border-radius:15px ; -ms-border-radius:15px ; -o-border-radius:15px ;
+}
+.card1{
+background-color: #fff; 
+padding: 1rem 2rem; 
+box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+border-radius:15px ;
+min-width: 15rem;
+}
+#user{
+height: 2rem;
+width: 2rem; border-radius: 100%;
+}
+.settings-nav{
+display: flex;
+gap: 1rem;
+}
+#search-div{
+padding: .2rem .5rem;
+border: none;
+/* display: flex;
+align-items: center; */
+}
+::placeholder{
+font-size: 1rem;
+}
+.search{
+display: flex;
+}
+#jumpotron{
+display: flex;
+/* align-items: center; */
+}
+/* #jumpotron img{
+height: 10rem;
+} */
+.cardRow{
+display: flex;
+/* gap:1rem; */
+justify-content: space-between;
+}
+.iconText{
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+.iconCard{
+width: 4rem;
+height: 4rem;
+display: flex;
+align-items: center;
+justify-content: center;
+border-radius: 100%;
+}
+#users-icon-div{
+background-color: #E8F9DF;
+}
+#doctors-icon-div{
+background-color: #D6F5FC;
+}
+#hospitals-icon-div{
+background-color: #FFE0DB;
+}
+#podcats-icon-div{
+background-color: #E7E7FF;
+}
+.cardTitle{
+color: #828F9B;
+}
+.iconText p{
+font-size: 1.2rem;
+font-weight: 600;
+color: #828F9B;
+}
+#form-FQA{
+padding: 2rem;
+}
+#main-FAQ{
+display: flex;
+gap: 2rem;
+}
+#div-input{
+display: flex;
+flex-direction: column;
+gap: .5rem;
+}
+#div-input label{
+font-weight: 700;
+margin-bottom: 1rem;
+color: #55697E;
+font-size: 1.1rem;
+}
+#div-input input{
+width:20rem;
+padding: 1rem;
+}
+#div-input textarea{
+width: 20rem;
+min-height: 15rem;
+border-radius:15px ;
+padding: 1rem;
+}
+#titleFQA{
+color: #55697E;
+margin: 0;
+}
+#submit{
+background-color:#55697E;
+color: #fff;
+border: none;
+font-weight: 600;
+font-size: .9rem;
+}
+#deleteFAQ{
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+#deleteFAQ button{ background-color:#55697E; color: #fff; border: none; font-weight: 600; font-size: .9rem; height:fit-content; padding: .5rem ; border-radius: 5px;
+}
+.background{
+display: flex;
+flex-direction: column;
+align-items: center;
+/* min-height: 100vh; */
+background:#F5F5F9;
+}
+.registerForm{
+margin: 2rem 0 ;
+text-align: start;
+display: flex;
+flex-direction: column;
+align-items: start;
+}
+.editInputRegister{
+padding: 1rem;
+border:1px solid #C0BEC2;
+color:#55697E;
+font-size: 1.2rem;
+}
+.editInputRegister :focus{
+border: 1px solid #55697E;
+}
+#textRegister{
+text-align: start;
+margin: 0;
+}
+.registerForm p{
+color:#84919D ;
+max-width: 90%;
+}
+.registerForm  h2{
+color:#5774CB ;
+text-align: start;
+}
+.signin-form h2{
+color:#5774CB ;
+text-align: start;
+}
+.button{ border: none; 
+background-color: #5774CB; 
+color: #fff; 
+padding: 1rem ; 
+font-size: 1.2rem; 
+border-radius: 5px;
+  /* margin: 1.5rem 0 0; */
+}
+#redirectSignIn{
+display: flex;
+align-items: center ;
+gap: 2rem;
+}
+#formLogin form{     
+display: flex;
+flex-direction: column;
+align-items: center;
+}
+.form-group input{
+padding: 1rem;
+border:1px solid #C0BEC2;
+color:#55697E;
+font-size: 1.2rem;
+}
+form>.form-group> #signin{
+border: none; 
+background-color: #5774CB; 
+color: #fff; 
+padding: 1rem ; 
+font-size: 1.2rem; 
+border-radius: 5px;
+margin: 1.5rem 0 0;
+}
+.logout button{
+border: none;
+background-color: #5774CB;
+color: #fff;
+font-size: 1.2rem;
+border-radius: 5px;
+padding: 0.5rem 1rem;
+display: flex;
+align-items: center;
+gap: 0.5rem;
+}
+.v-col-12 {
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+/******************User Table*********************/
+#user-table{ border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -ms-border-radius: 15px; -o-border-radius: 15px;
+}

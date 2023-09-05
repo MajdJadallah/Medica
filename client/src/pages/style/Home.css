@@ -1,0 +1,44 @@
+body{
+background-color:#F2F5FF ;
+}
+#main-content{
+width: 100%;
+padding: 1rem 2rem;
+display: flex;
+flex-direction: column;
+gap: 2rem;
+}
+#right-side{
+width: 100%;
+}
+#home-div{
+width: 100%;
+padding: 1rem 2rem;
+display: flex;
+flex-direction: column;
+/* min-height: 100vh; */
+
+}
+#column-container{
+display: flex;
+flex-direction: column;
+gap: 2rem;
+}
+#tableDiv{
+background-color: #fff;
+padding: 10px;
+border-radius:15px ;
+box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+th{
+text-align: center;
+color: #5774CB!important;
+}
+td{
+text-align: center;
+}
+#userTable{
+margin-bottom: 2rem;
+color: #4D5F71;
+padding: 20px;
+}

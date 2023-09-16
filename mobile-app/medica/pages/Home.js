@@ -16,7 +16,7 @@ function Home() {
     const navigation = useNavigation();
 
     const renderItem = ({ item }) => (
-        <TouchableOpacity style={styles.card} onPress={()=>{navigation.navigate(item.navigation)}}>
+        <TouchableOpacity style={styles.card} onPress={()=>{navigation.navigate(item.navigation, { category: item.name })}}>
             <View style={styles.iconContainer}>
                 <FontAwesomeIcon name={item.iconName} size={40} color="#5774CB" />
             </View>
@@ -38,19 +38,19 @@ function Home() {
     <FontAwesomeIcon name='bell-o' color='#5774CB' size={20}/>
     <FontAwesomeIcon name='heart-o' color='#5774CB' size={20}/>
     </View>
-</View>
+    </View>
         <View style={styles.image}>
         <Image source={home}/>
         </View>
       <View>
       <Text style={styles.category}>Categories</Text>
       <FlatList
-                data={categories}
-                renderItem={renderItem}
-                keyExtractor={(item) => item.id}
-                numColumns={2} // Display 2 columns
-                columnWrapperStyle={styles.columnWrapper}
-            />
+        data={categories}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+        numColumns={2} // Display 2 columns
+        columnWrapperStyle={styles.columnWrapper}
+        />
       </View>
     </View>
   )

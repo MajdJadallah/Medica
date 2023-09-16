@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema =mongoose.Schema;
 
-const AdviceSchema=new Schema({
+const ArticleSchema=new Schema({
     title:{
         type:String,
         required:true,
@@ -21,6 +21,10 @@ const AdviceSchema=new Schema({
     avatar:{
         type:String,
         required:true,
+    },
+    illenes:{
+        type:String,
+        required:true,
     }
 })
-module.exports=mongoose.model("advices",AdviceSchema)
+module.exports=mongoose.model("articles",ArticleSchema)

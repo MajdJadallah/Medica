@@ -54,4 +54,4 @@ const DeleteFAQ= async (req,res)=>{
     }
 }
 
-module.exports = {createFAQ,DeleteFAQ,getFAQ,getMajd};
+module.exports = {createFAQ,DeleteFAQ,getFAQ};

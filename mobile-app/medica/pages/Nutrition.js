@@ -1,7 +1,7 @@
 import React from 'react'
 import {View,Text,StyleSheet,FlatList,TouchableOpacity} from 'react-native'
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation  ,useRoute} from '@react-navigation/native';
 
 
 const categories = [
@@ -12,8 +12,12 @@ const categories = [
 ];
 function Nutrition () {
     const navigation = useNavigation();
+
+    const route = useRoute()
+    const categoryName = route.params?.category;
+
     const renderItem = ({ item }) => (
-        <TouchableOpacity style={styles.card} onPress={()=>{navigation.navigate(item.navigation)}}>
+        <TouchableOpacity style={styles.card} onPress={()=>{navigation.navigate(item.navigation, { category: "Nutrition" })}}>
             <View style={styles.iconContainer}>
                 <FontAwesomeIcon name={item.iconName} size={40} color="#5774CB" />
             </View>

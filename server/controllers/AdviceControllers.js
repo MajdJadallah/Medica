@@ -10,4 +10,4 @@ const getAdvices =async (req,res)=>{
     }
 }
 
-modeule.exports={getAdvices};
+module.exports={getAdvices};

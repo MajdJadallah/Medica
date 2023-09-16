@@ -2,13 +2,13 @@ const bcrypt = require('bcrypt');
 const jwt=require('jsonwebtoken');
 const UserModel=require('../models/Users');
 const AdminModel=require('../models/Admins');
+const mongoose = require('mongoose');
 
 const UserController= async (req, res) => {
     try {
       const users = await UserModel.find();
-
-        const formattedResponse = JSON.stringify(users, null, 2);
-        res.type('json').send(formattedResponse);
+        // const formattedResponse = JSON.stringify(users, null, 2);
+        res.status(200).json({users:users});
         console.log('response get')
     } catch (error) {
       console.error("Error fetching users:", error);
@@ -30,7 +30,18 @@ const UserController= async (req, res) => {
 //       res.status(500).json({ error: "Error fetching users" });
 //     }
 //   }
-
+//Get Single user
+const getuser= async (req,res)=>{
+  const {id}=req.params;
+  if(!mongoose.Types.ObjectId.isValid(id)){
+  res.status(404).json({error:"user not found"});
+  }
+  const user= await UserModel.findById(id)
+  if(!user){
+      res.status(404).json({error:"user not found"})
+  }
+  res.status(200).json({user})
+  }
 
   //Creat user
   const CreateUser=async (req, res) => {
@@ -44,6 +55,23 @@ const UserController= async (req, res) => {
       res.status(500).json({ error: "Error creating user" });
     }
   }
+  //edit user
+  const updateUser = async (req, res) => {
+    const { id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    try {
+      const user = await UserModel.findByIdAndUpdate(id, req.body, { new: true });
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+      return res.status(200).json({ user });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+      console.log("Internal server error: " + error);
+    }
+  };
   //Creat Admin
 
 const signUp = async (req,res)=> {
@@ -87,4 +115,4 @@ if (!isPasswordValid) {
 
 
 
-  module.exports ={UserController,CreateUser,signUp,login}
+  module.exports ={UserController,CreateUser,signUp,login,getuser,updateUser}

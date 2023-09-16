@@ -1,21 +1,44 @@
-import React from "react";
+import React,{useEffect,useState} from "react";
 import {View,Text,StyleSheet,FlatList,TouchableOpacity,Image,ScrollView,} from "react-native";
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import axios from 'axios';
 
 
-const categories = [
-  {id: "1",name: "Center one",image: require("../assets/hospital1.png"),location: "Amman",},
-  {id: "2",name: "Center two",image: require("../assets/hospital2.png"),location: "Amman",},
-  {id: "3",name: "Center three",image: require("../assets/hospital3.png"),location: "Amman",},
-  {id: "4",name: "Center four",image: require("../assets/hospital4.png"),location: "Amman",},
-];
+// const categories = [
+//   {id: "1",name: "Center one",image: require("../assets/hospital1.png"),location: "Amman",},
+//   {id: "2",name: "Center two",image: require("../assets/hospital2.png"),location: "Amman",},
+//   {id: "3",name: "Center three",image: require("../assets/hospital3.png"),location: "Amman",},
+//   {id: "4",name: "Center four",image: require("../assets/hospital4.png"),location: "Amman",},
+// ];
 const filters = ["All", "Amman", "Irbid", "Ajloun", "Zarqa", "Salt"];
 
-function Hospitals() {
+function Hospitals({ route }){
+  const { category } = route.params;
+  const [hospitals,setHospitals]=useState([]);
+  useEffect(() => {
+    axios.get("https://465d-2a01-9700-159d-7900-1d25-39c0-9c3f-fd0f.ngrok-free.app/api/hospitals")
+      .then((response) => {
+        const allHospitals = response.data.hospitals;
+        console.log('Data received:', allHospitals);
+        let filteredHospitals = [];
+        if (category === "Nutrition") {
+          filteredHospitals = allHospitals.filter((hospital) => hospital.nutrition === true);
+        } else if (category === "Physiology") {
+          filteredHospitals = allHospitals.filter((hospital) => hospital.phesylogy === true);
+        } else {
+          filteredHospitals = allHospitals.filter((hospital) => hospital.medical === true);
+        }
+        setHospitals(filteredHospitals);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }, [category]);
+
  const renderItem = ({ item }) => (
  <TouchableOpacity style={styles.card}>
   <View style={styles.iconContainer}>
-   <Image source={item.image} style={styles.image} />
+   <Image source={require("../assets/hospital1.png")} style={styles.image} />
    <View style={styles.text}>
     <View style={styles.like}>
       <Text style={styles.nameHospital}>{item.name}</Text>
@@ -39,7 +62,7 @@ function Hospitals() {
      {filters.map((filter) => renderFilter(filter))}
    </ScrollView>
    <FlatList
-   data={categories}
+   data={hospitals}
    renderItem={renderItem}
    keyExtractor={(item) => item.id}
    />
@@ -89,15 +112,16 @@ location: {
 nameHospital: {
  width:"100%",
  paddingBottom: 10,
- fontSize: 18,
+ fontSize: 15,
  fontWeight: "bold",
  borderBottomColor: "#eee",
  borderBottomWidth: 1,
 },
 filters: {
- flexDirection: "row",
-//  marginBottom: 20,
- paddingVertical:20,
+  flexDirection: "row",
+  marginBottom: 20,
+  minHeight:50,
+  height:50
 },
 filter: {
  borderWidth: 2,
@@ -105,6 +129,8 @@ filter: {
  padding: 10,
  borderRadius: 10,
  margin: 5,
+ height:45
+
 },
 textFilter: {
  color: "#5774CB",

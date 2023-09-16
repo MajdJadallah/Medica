@@ -1,38 +1,51 @@
-import React from 'react';
+import React,{useEffect,useState} from "react";
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
 
-function Articles() {
-  const ArticlesTrending = [
-    { id: "1", name: "Stress and autoimmune diseases", image: require('../assets/article1.png') },
-    { id: "2", name: "Mind-body connection in chronic illnesses", image: require('../assets/article2.png') },
-    { id: "3", name: "Stress and autoimmune diseases", image: require('../assets/article1.png') },
-    { id: "4", name: "Mind-body connection in chronic illnesses", image: require('../assets/article2.png') },
-    { id: "5", name: "Stress and autoimmune diseases", image: require('../assets/article1.png') }
-  ];
-  const Articles = [
-    { id: "1", name: "Stress and autoimmune diseases", image: require('../assets/article.png') ,Date:"Dec 22, 2022"},
-    { id: "2", name: "Mind-body connection in chronic illnesses", image: require('../assets/article4.png'),Date:"Dec 22, 2022" },
-    { id: "3", name: "Stress and autoimmune diseases", image: require('../assets/article1.png'),Date:"Dec 22, 2022" },
-    { id: "4", name: "Mind-body connection in chronic illnesses", image: require('../assets/article2.png'),Date:"Dec 22, 2022" },
-    { id: "5", name: "Stress and autoimmune diseases", image: require('../assets/article1.png'),Date:"Dec 22, 2022" }
-  ];
+function Articles({ route }) {
+  const { category } = route.params;
+  const [articles,setArticles]=useState([]);
+  const [trending,setTrending]=useState([]);
+  const [filters,setFilters]=useState([]);
 
+  useEffect(() => {
+    axios.get("https://465d-2a01-9700-159d-7900-1d25-39c0-9c3f-fd0f.ngrok-free.app/api/articles")
+      .then((response) => {
+        const allArticles = response.data.Articles;
+        console.log(allArticles);
+        let filteredArticles = [];
+        if (category === "Nutrition") {
+          filteredArticles = allArticles.filter((article) => article.type === "nutrition");
+          trendingArticles=filteredArticles.filter((trendArticle)=>trendArticle.trending===true)
+        } else if (category === "Physiology") {
+          filteredArticles = allArticles.filter((article) => article.type === "physiology");
+          trendingArticles=filteredArticles.filter((trendArticle)=>trendArticle.trending===true)
+        }
+        setArticles(filteredArticles);
+        setTrending(trendingArticles);
+        console.log('Data received:', filteredArticles);
+        console.log('Data received trendingArticles:', trendingArticles);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }, [category]);
   const renderArticle = ({ item }) => (
     <TouchableOpacity style={styles.articleContainer} key={item.id} onPress={()=>{navigation.navigate('ArticleDetails')}}>
       <View style={styles.article}>
-        <Image source={item.image} style={styles.image} />
-        <Text style={styles.articleName}>{item.name}</Text>
+        <Image source={require('../assets/article.png')} style={styles.image} />
+        <Text style={styles.articleName}>{item.title}</Text>
       </View>
     </TouchableOpacity>
   );
   const renderNews= ({ item }) => (
     <TouchableOpacity style={styles.articleContainer} key={item.id} onPress={()=>{navigation.navigate('ArticleDetails')}}>
       <View style={styles.articleNew}>
-        <Image source={item.image} style={styles.imageNew} />
+        <Image source={require('../assets/article2.png')} style={styles.imageNew} />
         <View>
-        <Text style={styles.date}>{item.Date}</Text>
-        <Text style={styles.articleName}>{item.name}</Text>
+        <Text style={styles.date}>{item.publishedDate}</Text>
+        <Text style={styles.articleName}>{item.title}</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -43,7 +56,7 @@ function Articles() {
     <View style={styles.container}>
       <Text style={styles.title}>Trending</Text>
       <FlatList
-        data={ArticlesTrending}
+        data={trending}
         renderItem={renderArticle}
         keyExtractor={(article) => article.id}
         horizontal
@@ -51,7 +64,7 @@ function Articles() {
       />
       <Text style={styles.titleNewest}>Newest</Text>
       <FlatList
-        data={Articles}
+        data={articles}
         renderItem={renderNews}
         keyExtractor={(article) => article.id}
       />

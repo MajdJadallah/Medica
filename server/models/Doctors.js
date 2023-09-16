@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const DoctorSchema = new mongoose.Schema({
-
 name:{
 type: String, required: true
 },
@@ -10,13 +9,28 @@ phone:{
 gender:{
     type: String, required: true
 },
-health_issue:{
+specialitst:{
     type: String, required: true
 },
-birthday:{
-    type:Date ,required: true
+role:{
+    type: String, required: true
+},
+currentEmployer:{
+    type:String ,required: true
 },
 avatar:{
+    type: String, required: true
+},
+timeWorking:{
+    type: String, required: true
+},
+description:{
+    type: String, required: true
+},
+review:{
+    type: String, required: true
+},
+type:{
     type: String, required: true
 }
 });

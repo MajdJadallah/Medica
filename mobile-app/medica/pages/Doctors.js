@@ -1,30 +1,43 @@
-import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  TouchableOpacity,
-  Image,
-  ScrollView,
-} from "react-native";
+import React,{useEffect,useState} from "react";
+import {View,Text,StyleSheet,FlatList,TouchableOpacity,Image,ScrollView,} from "react-native";
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import axios from 'axios';
 
-const categories = [
-  {id: "1",name: "Dr. Randy Wigham",image: require("../assets/doctor1.png"),specialist: "Neurologist",center:"The Valley Hospital",reviewed:4267},
-  {id: "2",name: "Dr. Jenny Watson",image: require("../assets/doctor2.png"),specialist: "Dermatologist",center:"Christ Hospital",reviewed:4942},
-  {id: "3",name: "Dr. Raul Zirkind",image: require("../assets/doctor3.png"),specialist: "Cardiologist",center:"Franklin Hospital",reviewed:6362},
-  {id: "4",name: "Dr. Elijah Baranick",image: require("../assets/doctor4.png"),specialist: "General",center:"JFK Medical Center",reviewed:2504},
-  {id: "5",name: "Dr. Stephen Shute",image: require("../assets/doctor5.png"),specialist: "Neurologist",center:"Alka Hospital",reviewed:3837},
-  ];
+ const filterDoctor = ["All", "General", "Neurologist", "Cardiologist", "Dermatologist", "Gastroenterologist", "Orthopedic Surgeon"];
+ const filterLocation=[  "Amman","Zarqa","Irbid","Balqa","Mafraq","Jerash","Ajloun","Karak","Tafilah","Ma'an","Aqaba","Madaba"];
 
-  const filters = ["All", "General", "Neurologist", "Cardiologist", "Dermatologist", "Gastroenterologist", "Orthopedic Surgeon"];
+function Doctors({ route }) {
+  const { category } = route.params;
+  const [doctors,setDoctors]=useState([]);
+  const [filters,setFilters]=useState([]);
 
-function Hospitals() {
+  useEffect(() => {
+    axios.get("https://465d-2a01-9700-159d-7900-1d25-39c0-9c3f-fd0f.ngrok-free.app/api/doctors")
+      .then((response) => {
+        const allDoctors = response.data;
+        let filteredDoctors = [];
+        if (category === "Nutrition") {
+          filteredDoctors = allDoctors.filter((doctor) => doctor.type === "Nutrition");
+          setFilters(filterLocation);
+        } else if (category === "Physiology") {
+          filteredDoctors = allDoctors.filter((doctor) => doctor.type === "Physiology");
+          setFilters(filterLocation);
+        } else {
+          filteredDoctors = allDoctors.filter((doctor) => doctor.type === "Medical");
+          setFilters(filterDoctor);
+        }
+        setDoctors(filteredDoctors);
+        console.log('Data received:', filteredDoctors);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }, [category]);
+
   const renderItem = ({ item }) => (
     <TouchableOpacity style={styles.card}>
       <View style={styles.iconContainer}>
-        <Image source={item.image} style={styles.image} />
+        <Image source={require("../assets/doctor1.png")} style={styles.image} />
         <View style={styles.text}>
           <View style={styles.like}>
           <Text style={styles.nameDoctor}>{item.name}</Text>
@@ -33,10 +46,10 @@ function Hospitals() {
           </TouchableOpacity>
           </View>
           <View style={styles.smallText}>
-          <Text style={styles.specialist}>{item.specialist}</Text>
-          <Text style={styles.center}>{item.center}</Text>
+          <Text style={styles.specialist}>{item.specialitst}</Text>
+          <Text style={styles.center}>{item.currentEmployer}</Text>
           </View>
-          <Text style={styles.reviewed}>( {item.reviewed} reviews ) </Text>
+          <Text style={styles.reviewed}>( {item.review} reviews ) </Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -53,7 +66,7 @@ function Hospitals() {
         {filters.map((filter) => renderFilter(filter))}
       </ScrollView>
       <FlatList
-        data={categories}
+        data={doctors}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
       />
@@ -61,7 +74,7 @@ function Hospitals() {
   );
 }
 
-export default Hospitals;
+export default Doctors;
 
 const styles = StyleSheet.create({
   container: {
@@ -122,7 +135,8 @@ const styles = StyleSheet.create({
   filters: {
     flexDirection: "row",
     marginBottom: 20,
-    minHeight:50
+    minHeight:50,
+    height:50
   },
   filter: {
     borderWidth: 2,

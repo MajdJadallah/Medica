@@ -21,7 +21,6 @@ const Login = () => {
   const [cookies, setCookie] = useCookies(['access_token']); // Use cookies
   const navigate = useNavigate();
 
-
   const validationSchema = Yup.object().shape({
     email: Yup.string().required('*Email is required').email('*Invalid email address'),
     password: Yup.string()
@@ -44,15 +43,11 @@ const Login = () => {
         // Store user ID in local storage
         localStorage.setItem('userID', response.data.adminId);
         const user = localStorage.getItem('User');
-
-        // Login successful, navigate to profile page
         navigate(`/profile/${user}`);
       } else {
-        // Handle unsuccessful login here, if needed
         setErrorMessage('Username or password is incorrect.');
       }
     } catch (error) {
-      // Handle other errors if needed
       setErrorMessage('An error occurred. Please try again later.');
     }
 
@@ -73,7 +68,6 @@ const Login = () => {
           src={logo}
           alt='logo'/>
             <h2>Welcome back! 👋🏻</h2>
-            {/* <p id='textRegister'>Enter your email and password to sign in mmmmmmmmmmmmmmmmmm</p> */}
             <div className="form-group" style={{width:'100%'}}>
               <Field type="text" id="email" name="email" placeholder='Email' />
               <ErrorMessage name="email" component="div" className="error" />

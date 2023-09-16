@@ -1,60 +1,65 @@
-import React from 'react'
-import AsideLeft from '../components/AsideLeft'
-import Header from '../components/Header'
+import React, { useEffect, useState } from 'react';
+import Axios from 'axios';
+import AsideLeft from '../components/AsideLeft';
+import Header from '../components/Header';
+
 function UsersTable() {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    Axios.get('http://localhost:8080/api/users')
+      .then((response) => {
+        setUsers(response.data);
+        console.log(users);
+      })
+      .catch((error) => {
+        console.error('Error fetching user data:', error);
+      });
+  }, []);
+
   return (
     <div>
-<div className='row d-flex' id='dashboard'>
-  <div className='col-md-2 aside-left'>
-    <AsideLeft />
-  </div>
-  <div className='col-md-10 main'>
-    <Header/>
-    <div id='tableDiv'>
-    <h3 id='userTable'>Users</h3>
-    <table class="table" id='user-table'>
-    <thead>
-    <tr>
-      <th scope="col">id</th>
-      <th scope="col">Name</th>
-      <th scope="col">Gender</th>
-      <th scope="col">Email</th>
-      <th scope="col">Date</th>
-      <th scope="col">Health Issue</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr >
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Male</td>
-      <td>mark@mark.com</td>
-      <td>20/12/2015</td>
-      <td>Rohmotuied</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Majd</td>
-      <td>Female</td>
-      <td>mark@mark.com</td>
-      <td>20/12/2015</td>
-      <td>Rohmotuied</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Ayar</td>
-      <td>Female</td>
-      <td>mark@mark.com</td>
-      <td>20/12/2015</td>
-      <td>Rohmotuied</td>
-    </tr>
-  </tbody>
-    </table>
+      <div className='row d-flex' id='dashboard'>
+        <div className='col-md-2 aside-left'>
+          <AsideLeft />
+        </div>
+        <div className='col-md-10 main'>
+          <Header />
+          <div id='tableDiv'>
+            <h3 id='userTable'>Users</h3>
+            {users.length > 0 ? (
+              <table className="table" id='user-table'>
+                <thead>
+                  <tr>
+                    <th scope="col">id</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Gender</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Health Issue</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {users.map((user) => (
+                    <tr key={user.id}>
+                      <th scope="row">{user.id}</th>
+                      <td>{user.name}</td>
+                      <td>{user.gender}</td>
+                      <td>{user.email}</td>
+                      <td>{user.date}</td>
+                      <td>{user.healthIssue}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <p>Loading...</p>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-  </div>
-</div>
-  )
+  );
 }
 
-export default UsersTable
+export default UsersTable;

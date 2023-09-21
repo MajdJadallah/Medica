@@ -32,7 +32,7 @@ function Articles({ route }) {
       });
   }, [category]);
   const renderArticle = ({ item }) => (
-    <TouchableOpacity style={styles.articleContainer} key={item.id} onPress={()=>{navigation.navigate('ArticleDetails')}}>
+    <TouchableOpacity style={styles.articleContainer} key={item.id} onPress={()=>{navigation.navigate('ArticleDetails',{ articleID: item._id })}}>
       <View style={styles.article}>
         <Image source={require('../assets/article.png')} style={styles.image} />
         <Text style={styles.articleName}>{item.title}</Text>
@@ -40,7 +40,7 @@ function Articles({ route }) {
     </TouchableOpacity>
   );
   const renderNews= ({ item }) => (
-    <TouchableOpacity style={styles.articleContainer} key={item.id} onPress={()=>{navigation.navigate('ArticleDetails')}}>
+    <TouchableOpacity style={styles.articleContainer} key={item.id} onPress={()=>{navigation.navigate('ArticleDetails',{ articleID: item._id })}}>
       <View style={styles.articleNew}>
         <Image source={require('../assets/article2.png')} style={styles.imageNew} />
         <View>

@@ -1,10 +1,11 @@
 const express = require('express');
 const router=express.Router();
-const {getAdvices} = require('../controllers/AdviceControllers')
+const {getAdvices,getadvice}= require('../controllers/AdviceControllers')
 
 
 
-router.get('/',getAdvices)
+router.get('/',getAdvices);
+router.get('/:id',getadvice);
 
 
 

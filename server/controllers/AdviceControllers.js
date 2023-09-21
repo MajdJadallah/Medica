@@ -1,4 +1,5 @@
 const AdviceModel =require('../models/AdvicesModel');
+const mongoose = require('mongoose');
 
 //get the advices for mobile devices
 const getAdvices =async (req,res)=>{
@@ -10,4 +11,16 @@ const getAdvices =async (req,res)=>{
     }
 }
 
-module.exports={getAdvices};
+const getadvice= async (req,res)=>{
+    const {id}=req.params;
+    if(!mongoose.Types.ObjectId.isValid(id)){
+    res.status(404).json({error:"advice not found"});
+    }
+    const advice= await AdviceModel.findById(id)
+    if(!advice){
+        res.status(404).json({error:"advice not found"})
+    }
+    res.status(200).json({advice})
+    }
+
+module.exports={getAdvices,getadvice};

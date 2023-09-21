@@ -1,31 +1,37 @@
-import React from 'react'
+import React,{useEffect,useState} from "react";
 import {View,Text,Image,StyleSheet,ScrollView} from 'react-native'
 import image from '../assets/article.png'
-function ArticleDetails() {
+import axios from 'axios';
+
+
+
+function ArticleDetails({route}) {
+  const { articleID } = route.params;
+  const [article,setArticle]=useState('');
+
+  useEffect(() => {
+    axios.get(`https://465d-2a01-9700-159d-7900-1d25-39c0-9c3f-fd0f.ngrok-free.app/api/articles/${articleID}`)
+    .then((response) => {
+    console.log("response of one article");
+    const article = response.data.article;
+    console.log(article);
+    setArticle(article)
+    })
+    .catch((error) => {
+    console.error('Error:', error);
+    });
+  }, [articleID]);
+
   return (
     <View style={styles.container}>
     <Image source={image} style={styles.image}/>
       <View>
-        <Text style={styles.text}>Psychological health and rheumatoid arthritis </Text>
-      <Text style={styles.Date}>Dec 22, 2022</Text>
+      <Text style={styles.text}>{article.title} </Text>
+      <Text style={styles.Date}>{article.publishedDate}</Text>
       </View>
       <ScrollView>
-      <Text style={styles.article}>Mental health issues are not something that immediately comes to mind when you
-      think of leprosy or lymphatic filariasis (LF). It is only right that we concern ourselves with the physical
-      effects of the condition first and foremost, but the social and financial effects are immense too and
-      contribute significantly to the wellbeing of people affected.
-      At Lepra, we believe good mental health is critical for people affected by leprosy or LF, we believe in whole-person care,
-       and we believe it’s essential that mental wellbeing support is provided together with physical health care.
-      Why mental health matters
-      One in two people who receive a diagnosis of leprosy or LF will also be affected by mental health problems. Mental health
-      problems are especially high among people who develop disabilities as a result of their disease. This includes severe
-       depression and anxiety and low self-esteem.
-      We have worked with leprosy for nearly one hundred years; time and time again we have observed how people’s
-      lives change when they are diagnosed, or even suspect they are affected, with leprosy. They can be keenly
-      aware of very real prejudice and discrimination, scared of potential disability or what their friends, family,
-      and neighbours will think. It is also the same for people affected by LF.</Text>
+      <Text style={styles.article}>{article.content}</Text>
       </ScrollView>
-      
     </View>
   )
 }
@@ -38,7 +44,7 @@ const styles = StyleSheet.create({
   flexDirection: "column",
   backgroundColor: '#fff',
   alignItems: 'center',
-  padding: 30,
+  padding: 10,
  },
  image:{
  borderRadius: 24,

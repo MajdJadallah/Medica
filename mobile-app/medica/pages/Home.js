@@ -1,9 +1,11 @@
-import React from 'react';
+import React,{useEffect,useState} from "react";
 import {View ,Text,Image,StyleSheet,TextInput,TouchableOpacity, ScrollView,FlatList} from 'react-native'
 import home from '../assets/home.png'
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 import profile from '../assets/user.png'
+import axios from 'axios';
+
 
 
 const categories = [
@@ -12,47 +14,64 @@ const categories = [
  { id: '3', name: 'Nutrition', iconName: 'apple',navigation:"Nutrition"  },
  { id: '4', name: 'Phsyology', iconName: 'heart-o',navigation:"Phsyology serviecs"  },
 ];
-function Home() {
-    const navigation = useNavigation();
+function Home({route}) {
+  const { adminId } = route.params;
+  const url="https://465d-2a01-9700-159d-7900-1d25-39c0-9c3f-fd0f.ngrok-free.app/api/users"
+  const [username, setUsername] = useState('');
+  useEffect(() => {
+    axios.get(`https://465d-2a01-9700-159d-7900-1d25-39c0-9c3f-fd0f.ngrok-free.app/api/users/${adminId}`)
+    .then((response) => {
+    const user = response.data.user;
+    console.log(user);
+    setUsername(user);
+    })
+    .catch((error) => {
+    console.error('Error:', error);
+    });
+  }, []);
 
-    const renderItem = ({ item }) => (
-        <TouchableOpacity style={styles.card} onPress={()=>{navigation.navigate(item.navigation, { category: item.name })}}>
-            <View style={styles.iconContainer}>
-                <FontAwesomeIcon name={item.iconName} size={40} color="#5774CB" />
-            </View>
-            <Text style={styles.cardTitle}>{item.name}</Text>
-        </TouchableOpacity>
-    );
 
-  return (
-    <View style={styles.container}>
-<View style={styles.user}>
-    <View style={styles.nameView}>
-    <Image source={profile}/>
-    <View>
-        <Text style={styles.welcome}>Good Morning 👋</Text>
-        <Text style={styles.name}>Majd Jadallah</Text>
+
+
+ const navigation = useNavigation();
+ const renderItem = ({ item }) => (
+  <TouchableOpacity style={styles.card} onPress={()=>{navigation.navigate(item.navigation, { category: item.name })}}>
+   <View style={styles.iconContainer}>
+    <FontAwesomeIcon name={item.iconName} size={40} color="#5774CB" />
+   </View>
+   <Text style={styles.cardTitle}>{item.name}</Text>
+  </TouchableOpacity>
+ );
+
+return (
+ <View style={styles.container}>
+ <View style={styles.user}>
+ <View style={styles.nameView}>
+ <Image source={profile}/>
+ <View>
+  <Text style={styles.welcome}>Good Morning 👋</Text>
+  <Text style={styles.name}>{username.username}</Text>
+  </View>
+  </View>
+  <View style={styles.icons}>
+  <FontAwesomeIcon name='bell-o' color='#5774CB' size={20}/>
+  <FontAwesomeIcon name='heart-o' color='#5774CB' size={20}/>
+  </View>
+  </View>
+    <View style={styles.image}>
+    <Image source={home}/>
     </View>
+  <View>
+  <Text style={styles.category}>Categories</Text>
+  <FlatList
+    data={categories}
+    renderItem={renderItem}
+    keyExtractor={(item) => item.id}
+      numColumns={2} // Display 2 columns
+      columnWrapperStyle={styles.columnWrapper}
+      />
     </View>
-    <View style={styles.icons}>
-    <FontAwesomeIcon name='bell-o' color='#5774CB' size={20}/>
-    <FontAwesomeIcon name='heart-o' color='#5774CB' size={20}/>
-    </View>
-    </View>
-        <View style={styles.image}>
-        <Image source={home}/>
-        </View>
-      <View>
-      <Text style={styles.category}>Categories</Text>
-      <FlatList
-        data={categories}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-        numColumns={2} // Display 2 columns
-        columnWrapperStyle={styles.columnWrapper}
-        />
-      </View>
-    </View>
+  </View>
   )
 }
 

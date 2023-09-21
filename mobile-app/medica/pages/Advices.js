@@ -1,41 +1,40 @@
-import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  TouchableOpacity,
-  Image,
-  ScrollView,
-} from "react-native";
+import React,{useEffect,useState} from "react";
+import {View,Text,StyleSheet,FlatList,TouchableOpacity,Image,ScrollView} from "react-native";
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
 
-const categories = [
-  {id: "1",name: "Focus on Positive Coping Strategies",image: require("../assets/advice1.png"),date: "Dec 22, 2022",reviewed:4267},
-  {id: "2",name: "Educate Yourself",image: require("../assets/advice2.png"),date: "Dec 22, 2022",reviewed:4942},
-  {id: "3",name: "Practice Mindfulness and Meditation",image: require("../assets/advice3.png"),date: "Dec 22, 2022",reviewed:6362},
-  {id: "4",name: "Communicate with Healthcare Providers",image: require("../assets/advice1.png"),date: "Dec 22, 2022",reviewed:2504},
-  {id: "5",name: "Focus on Positive Coping Strategies",image: require("../assets/advice4.png"),date: "Dec 22, 2022",reviewed:3837},
-  ];
 
-  const filters = ["All", "Newset"];
+const filters = ["All", "Newset"];
+function Advices() {
+  const [advices,setAdvices]=useState([]);
 
-function Hospitals() {
   const navigation = useNavigation();
+  useEffect(() => {
+    axios.get("https://465d-2a01-9700-159d-7900-1d25-39c0-9c3f-fd0f.ngrok-free.app/api/advices")
+    .then((response) => {
+    console.log("response of one article");
+    const advices = response.data.Advices;
+    setAdvices(advices)
+    })
+    .catch((error) => {
+    console.error('Error:', error);
+    });
+  }, []);
+
 
   const renderItem = ({ item }) => (
-    <TouchableOpacity style={styles.card} onPress={()=>{navigation.navigate('AdviceDetails')}}>
+    <TouchableOpacity style={styles.card} onPress={()=>{navigation.navigate('AdviceDetails',{ adviceID: item._id })}}>
       <View style={styles.iconContainer}>
-        <Image source={item.image} style={styles.image} />
+        <Image source={require("../assets/advice1.png")} style={styles.image} />
         <View style={styles.text}>
           <View style={styles.like}>
-          <Text style={styles.nameDoctor}>{item.name}</Text>
+          <Text style={styles.nameDoctor}>{item.title}</Text>
           </View>
           <View style={styles.smallText}>
-          <Text style={styles.specialist}>{item.date}</Text>
+          <Text style={styles.specialist}>{item.Date}</Text>
           </View>
-          <Text style={styles.reviewed}>( {item.reviewed} reviews ) </Text>
+          <Text style={styles.reviewed}>( {item.review} reviews ) </Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -52,7 +51,7 @@ function Hospitals() {
         {filters.map((filter) => renderFilter(filter))}
       </ScrollView>
       <FlatList
-        data={categories}
+        data={advices}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
       />
@@ -60,7 +59,7 @@ function Hospitals() {
   );
 }
 
-export default Hospitals;
+export default Advices;
 
 const styles = StyleSheet.create({
   container: {

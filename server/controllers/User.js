@@ -15,21 +15,7 @@ const UserController= async (req, res) => {
       res.status(500).json({ error: "Error fetching users" });
     }
   }
-// const getUser= async (req, res) => {
-//     try {
-//       const userID=localStorage.getItem('userID')
-//       const user = await UserModel.findOne({userID});
 
-//         const formattedResponse = JSON.stringify(user);
-//         res.type('json').send(formattedResponse);
-//         console.log('response get');
-//         console.log(user);
-
-//     } catch (error) {
-//       console.error("Error fetching users:", error);
-//       res.status(500).json({ error: "Error fetching users" });
-//     }
-//   }
 //Get Single user
 const getuser= async (req,res)=>{
   const {id}=req.params;
@@ -43,18 +29,6 @@ const getuser= async (req,res)=>{
   res.status(200).json({user})
   }
 
-  //Creat user
-  const CreateUser=async (req, res) => {
-    try {
-      const newUser = new UserModel(req.body);
-      await newUser.save();
-      res.json(req.body);
-      console.log('res posted successfully')
-    } catch (error) {
-      console.error("Error creating user:", error);
-      res.status(500).json({ error: "Error creating user" });
-    }
-  }
   //edit user
   const updateUser = async (req, res) => {
     const { id } = req.params;
@@ -72,6 +46,48 @@ const getuser= async (req,res)=>{
       console.log("Internal server error: " + error);
     }
   };
+  
+  //Creat user
+  const CreateUser = async (req, res) => {
+    try {
+      const { username, password, email } = req.body;
+      const user = await UserModel.findOne({ email });
+      if (user) {
+        // User with the same email already exists, return an error response
+        return res.json({ message: "The user is already registered" });
+      }
+      const hashedPassword = bcrypt.hashSync(password, 10);
+      const newUser = new UserModel({
+        username: username,
+        password: hashedPassword,
+        email: email,
+      });
+      await newUser.save();
+      return res.json({ message: "User created successfully", user: newUser });
+    } catch (error) {
+      console.error("Error creating user:", error);
+      res.json({ error: "Error creating user" });
+    }
+  };
+  //login user
+  const loginUser = async (req,res)=> {
+   try{
+   const {email,password} = req.body;
+   const user= await UserModel.findOne({email});
+   if (!user) {
+     return res.json({ message: "User not found" });
+   }    const isPasswordValid= await bcrypt.compare(password,user.password);
+   if (!isPasswordValid) {
+     return res.json({ message: "Username or password is incorrect" });
+   }    //token to make user login to application
+   const token =jwt.sign({id:user._id},process.env.SECRET)
+   return res.json({token, adminId:user._id})
+   }
+   catch(err){
+   return res.status(500).json({ error: "Internal Server Error" });
+    }
+  }
+
   //Creat Admin
 
 const signUp = async (req,res)=> {
@@ -115,4 +131,4 @@ if (!isPasswordValid) {
 
 
 
-  module.exports ={UserController,CreateUser,signUp,login,getuser,updateUser}
+  module.exports ={UserController,CreateUser,signUp,login,getuser,updateUser,loginUser}

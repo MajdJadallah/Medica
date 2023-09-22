@@ -11,6 +11,7 @@ function SignIn() {
   const navigation = useNavigation();
 
   const [email, setEmail] = useState("");
+  const [role, setRole] = useState("user");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
@@ -56,21 +57,24 @@ function SignIn() {
     validatePassword(password);
     if (validateEmail(email) && validatePassword(password)) {
       try {
-        const response = await axios.post(
-          "https://6e2e-2a01-9700-159d-7900-81ed-c2e1-1e39-b52.ngrok-free.app/api/users/login", // Replace with your actual API endpoint URL
-          { email, password }
+        let url = 'https://6e2e-2a01-9700-159d-7900-81ed-c2e1-1e39-b52.ngrok-free.app/api/users/login';
+
+    if (role === 'doctor') {
+      url = 'https://6e2e-2a01-9700-159d-7900-81ed-c2e1-1e39-b52.ngrok-free.app/api/doctors/login';
+    }
+        const response = await axios.post(url,{ email, password }
         );
         if (response.status === 200) {
         const { adminId } = response.data;
 
         const profile = await getData('profile');
+        navigation.navigate("Profile", { adminId });
+        // if (profile === true) { 
+        //   navigation.navigate("Profile", { adminId });
 
-        if (profile === true) { 
-          navigation.navigate("Profile", { adminId });
-          
-        } else {
-          navigation.navigate("Home", { adminId });
-        }
+        // } else {
+        //   navigation.navigate("Home", { adminId });
+        // }
         } else if (response.status === 404) {
           setLoginError("User not found. Sign up instead.");
         } else if (response.status === 400 || response.status === 401) {

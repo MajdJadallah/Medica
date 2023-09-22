@@ -1,6 +1,6 @@
 const express = require('express');
 const router=express.Router();
-const {getDoctors,phesyologies,nutrition,createDoctor} = require('../controllers/DoctorsController')
+const {getDoctors,phesyologies,nutrition,createDoctor,loginDoctor} = require('../controllers/DoctorsController')
 
 
 
@@ -9,6 +9,7 @@ router.get('/',getDoctors)
 router.get('/phesyology',phesyologies)
 router.get('/nutrition',nutrition)
 router.post('/createdoctors',createDoctor)
+router.post('/login',loginDoctor)
 // router.delete('/:id',DeleteFAQ)
 // router.get('/:name',getMajd)
 

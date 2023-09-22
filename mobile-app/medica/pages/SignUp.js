@@ -1,51 +1,55 @@
 import React, { useState } from 'react';
-import {StatusBar,StyleSheet,Text,View,Image,TouchableOpacity,TextInput,ScrollView,KeyboardAvoidingView} from 'react-native';
+import { StatusBar, StyleSheet, Text, View, Image, TouchableOpacity, TextInput, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 const logo = require('../assets/logo.png');
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 
 function SignUp() {
   const navigation = useNavigation();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [role, setRole] = useState('user');
   const [usernameError, setUsernameError] = useState('');
   const [Error, setError] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
 
-  
   const fetchPost = async () => {
+    let url = 'https://6e2e-2a01-9700-159d-7900-81ed-c2e1-1e39-b52.ngrok-free.app/api/users/createuser';
+
+    if (role === 'doctor') {
+      url = 'https://6e2e-2a01-9700-159d-7900-81ed-c2e1-1e39-b52.ngrok-free.app/api/doctors/createdoctors';
+    }
     try {
+      const dataToSend = {
+        username,
+        email,
+        password,
+        role,
+        name:username, 
+      };
       const response = await axios.post(
-        ' https://6e2e-2a01-9700-159d-7900-81ed-c2e1-1e39-b52.ngrok-free.app/api/users/createuser',
-        { username, email, password }
-      );
-      // console.log('Response:', response.data);
+        url,dataToSend);
+
       if (response.status === 200) {
         // Registration successful
-        const userData={ username, email, password };
+        const userData = { username, email, password };
 
-            await AsyncStorage.setItem('user', JSON.stringify(userData));
-            await AsyncStorage.setItem('profile', JSON.stringify(true));
-
-            // console.log('Data stored successfully');
+        await AsyncStorage.setItem('user', JSON.stringify(userData));
+        await AsyncStorage.setItem('profile', JSON.stringify(true));
 
         navigation.navigate('SignIn');
-      } else if(response.status === 300) {
-        setError("user already exists");
-        // Handle other response status codes or errors
+      } else if (response.status === 300) {
+        setError("User already exists");
         navigation.navigate('SignIn');
-
-      }else{
+      } else {
         console.error('Registration failed');
       }
     } catch (error) {
       console.error('Error:', error);
       console.error('Error response:', error.response);
-      // Handle network errors or other exceptions
     }
   };
 
@@ -95,11 +99,6 @@ function SignUp() {
       console.log('Error removing data:', error);
     }
   };
-  
-  // console.log (userDat);
-  // console.log (prof);
-  
-
 
   return (
     <KeyboardAvoidingView style={styles.container}>
@@ -134,6 +133,26 @@ function SignUp() {
         />
         {passwordError && <Text style={styles.errorText}>{passwordError}</Text>}
 
+        <View style={styles.roleContainer}>
+          <Text style={styles.roleLabel}>Select Role:</Text>
+          <View style={styles.radioGroup}>
+            <TouchableOpacity
+              style={[styles.radioButton, role === 'user' && styles.radioButtonSelected]}
+              onPress={() => setRole('user')}
+            >
+              {role === 'user' && <View style={styles.radioSelected} />}
+            </TouchableOpacity>
+            <Text style={styles.radioText}>User</Text>
+            <TouchableOpacity
+              style={[styles.radioButton, role === 'doctor' && styles.radioButtonSelected]}
+              onPress={() => setRole('doctor')}
+            >
+              {role === 'doctor' && <View style={styles.radioSelected} />}
+            </TouchableOpacity>
+            <Text style={styles.radioText}>Doctor</Text>
+          </View>
+        </View>
+
         <TouchableOpacity style={styles.button} onPress={onSignUpPress}>
           <Text style={styles.btnText}>Sign Up</Text>
         </TouchableOpacity>
@@ -144,7 +163,6 @@ function SignUp() {
             <Text style={styles.blue}> Sign In</Text>
           </TouchableOpacity>
           {Error && <Text style={styles.errorText}>{Error}</Text>}
-
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
@@ -212,6 +230,40 @@ const styles = StyleSheet.create({
     color: 'red',
     fontSize: 14,
     marginBottom: 10,
-    paddingHorizontal:20
+    paddingHorizontal: 20,
+  },
+  roleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 10,
+    paddingHorizontal: 20,
+    width: '100%',
+  },
+  roleLabel: {
+    color: '#9E9E9E',
+    marginRight: 10,
+  },
+  radioGroup: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%',
+  },
+  radioButton: {
+    borderWidth: 1,
+    borderColor: '#5774CB',
+    borderRadius: 5,
+    padding: 7,
+    marginRight: 10,
+  },
+  radioButtonSelected: {
+    backgroundColor: '#5774CB',
+  },
+  radioText: {
+    color: '#5774CB',
+    marginRight:30,
+  },
+  radioSelected: {
+    // borderRadius: 100,
+    backgroundColor: '#fff',
   },
 });

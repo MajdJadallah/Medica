@@ -16,7 +16,7 @@ function Hospitals({ route }){
   const { category } = route.params;
   const [hospitals,setHospitals]=useState([]);
   useEffect(() => {
-    axios.get("https://465d-2a01-9700-159d-7900-1d25-39c0-9c3f-fd0f.ngrok-free.app/api/hospitals")
+    axios.get(" https://6e2e-2a01-9700-159d-7900-81ed-c2e1-1e39-b52.ngrok-free.app/api/hospitals")
       .then((response) => {
         const allHospitals = response.data.hospitals;
         console.log('Data received:', allHospitals);

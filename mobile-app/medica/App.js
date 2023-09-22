@@ -6,7 +6,8 @@ import Third from './pages/Third'
 import SignUp from './pages/SignUp'
 import SignIn from './pages/SignIn'
 import HelpCenter from './pages/HelpCenter'
-import Home from './pages/Home'
+import Home from './pages/Home' 
+import Profile from './pages/Profile'
 import Medical from './pages/Medical'
 import Phsyology from './pages/Phesyology'
 import Nutrition from './pages/Nutrition'
@@ -35,6 +36,7 @@ export default function App() {
       <Stack.Screen name="SignIn" component={SignIn} options={{headerTitle:''}} />
       <Stack.Screen name="HelpCenter" component={HelpCenter} />
       <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="Profile" component={Profile} />
       <Stack.Screen name="Communities" component={Communities} />
       <Stack.Screen name="Nutrition" component={Nutrition} />
       <Stack.Screen name="Medical Services" component={Medical} />

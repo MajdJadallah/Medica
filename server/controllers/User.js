@@ -70,23 +70,40 @@ const getuser= async (req,res)=>{
     }
   };
   //login user
-  const loginUser = async (req,res)=> {
-   try{
-   const {email,password} = req.body;
-   const user= await UserModel.findOne({email});
-   if (!user) {
-     return res.json({ message: "User not found" });
-   }    const isPasswordValid= await bcrypt.compare(password,user.password);
-   if (!isPasswordValid) {
-     return res.json({ message: "Username or password is incorrect" });
-   }    //token to make user login to application
-   const token =jwt.sign({id:user._id},process.env.SECRET)
-   return res.json({token, adminId:user._id})
-   }
-   catch(err){
-   return res.status(500).json({ error: "Internal Server Error" });
+  const loginUser = async (req, res) => {
+    try {
+      const { email, password } = req.body;
+      // Validate inputs
+      if (!email || !password) {
+        return res.status(400).json({ error: "Email and password are required" });
+      }
+      const user = await UserModel.findOne({ email });
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+      if (!isPasswordValid) {
+        return res.status(401).json({ error: "Username or password is incorrect" });
+      }
+      // Generate and send JWT token
+      const token = jwt.sign({ id: user._id }, process.env.SECRET);
+      // Log the successful login if needed
+      // Add more detailed logging as required
+
+      const currentDate = new Date();
+      const day = String(currentDate.getDate()).padStart(2, '0');
+      const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+      const year = String(currentDate.getFullYear()).slice(-2);
+      const formattedDate = `${day}/${month}/${year}`;
+      console.log(`User ${user.email} logged in at ${formattedDate}`);
+      return res.json({ token, adminId: user._id });
+    } catch (err) {
+      // Log the error for debugging
+      console.error(err);
+      return res.status(500).json({ error: "Internal Server Error" });
     }
-  }
+  };
+  
 
   //Creat Admin
 

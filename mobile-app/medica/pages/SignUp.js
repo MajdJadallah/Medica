@@ -1,18 +1,10 @@
 import React, { useState } from 'react';
-import {
-  StatusBar,
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  TextInput,
-  ScrollView,
-  KeyboardAvoidingView,
-} from 'react-native';
+import {StatusBar,StyleSheet,Text,View,Image,TouchableOpacity,TextInput,ScrollView,KeyboardAvoidingView} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 const logo = require('../assets/logo.png');
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 function SignUp() {
   const navigation = useNavigation();
@@ -24,15 +16,23 @@ function SignUp() {
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
 
+  
   const fetchPost = async () => {
     try {
       const response = await axios.post(
-        'https://465d-2a01-9700-159d-7900-1d25-39c0-9c3f-fd0f.ngrok-free.app/api/users/createuser',
+        ' https://6e2e-2a01-9700-159d-7900-81ed-c2e1-1e39-b52.ngrok-free.app/api/users/createuser',
         { username, email, password }
       );
-      console.log('Response:', response.data);
+      // console.log('Response:', response.data);
       if (response.status === 200) {
         // Registration successful
+        const userData={ username, email, password };
+
+            await AsyncStorage.setItem('user', JSON.stringify(userData));
+            await AsyncStorage.setItem('profile', JSON.stringify(true));
+
+            // console.log('Data stored successfully');
+
         navigation.navigate('SignIn');
       } else if(response.status === 300) {
         setError("user already exists");
@@ -86,6 +86,20 @@ function SignUp() {
     const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     return emailPattern.test(email);
   };
+
+  const removeData = async (user) => {
+    try {
+      await AsyncStorage.removeItem(user);
+      console.log('Data removed successfully');
+    } catch (error) {
+      console.log('Error removing data:', error);
+    }
+  };
+  
+  // console.log (userDat);
+  // console.log (prof);
+  
+
 
   return (
     <KeyboardAvoidingView style={styles.container}>

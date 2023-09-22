@@ -16,10 +16,10 @@ const categories = [
 ];
 function Home({route}) {
   const { adminId } = route.params;
-  const url="https://465d-2a01-9700-159d-7900-1d25-39c0-9c3f-fd0f.ngrok-free.app/api/users"
+  const url="https://6e2e-2a01-9700-159d-7900-81ed-c2e1-1e39-b52.ngrok-free.app/api/users"
   const [username, setUsername] = useState('');
   useEffect(() => {
-    axios.get(`https://465d-2a01-9700-159d-7900-1d25-39c0-9c3f-fd0f.ngrok-free.app/api/users/${adminId}`)
+    axios.get(`https://6e2e-2a01-9700-159d-7900-81ed-c2e1-1e39-b52.ngrok-free.app/api/users/${adminId}`)
     .then((response) => {
     const user = response.data.user;
     console.log(user);

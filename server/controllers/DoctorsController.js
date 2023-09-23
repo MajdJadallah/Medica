@@ -59,20 +59,36 @@ try{
 //     }
 // }
 const createDoctor = async (req, res) => {
-    try {
-      const {name,phone,gender,specialitst,role,currentEmployer,avatar,timeWorking,description,review,type,email,password} = req.body;
-      const existingDoctor = await DoctorsModel.findOne({ email });
-      if (existingDoctor) {
-        return res.status(400).json({ Error: 'Doctor with this email already exists.' });
-      }
-      const hashedPassword = bcrypt.hashSync(password, 10);
+ try {
+   const {name,phone,gender,specialitst,role,currentEmployer,avatar,timeWorking,description,review,type,email,password} = req.body;
+   const existingDoctor = await DoctorsModel.findOne({ email });
+   if (existingDoctor) {
+     return res.status(400).json({ Error: 'Doctor with this email already exists.' });
+   }
+   const hashedPassword = bcrypt.hashSync(password, 10);
+   const doctor = await DoctorsModel.create({name,phone,gender,specialitst,role,currentEmployer,avatar,timeWorking,description,review,type,email,password:hashedPassword});
+   res.status(200).json(doctor);
+ } catch (error) {
+   res.status(400).json({ Error: error.message });
+ }
+};
 
-      const doctor = await DoctorsModel.create({name,phone,gender,specialitst,role,currentEmployer,avatar,timeWorking,description,review,type,email,password:hashedPassword});
-      res.status(200).json(doctor);
-    } catch (error) {
-      res.status(400).json({ Error: error.message });
+const updateDoctor = async (req, res) => {
+  const { id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ error: "User not found" });
+  }
+  try {
+    const user = await DoctorsModel.findByIdAndUpdate(id, req.body, { new: true });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
     }
-  };
+    return res.status(200).json({ user });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+    console.log("Internal server error: " + error);
+  }
+};
 
 
 const loginDoctor = async (req, res) => {
@@ -107,4 +123,4 @@ const loginDoctor = async (req, res) => {
   }
 };
   
-module.exports={getDoctors,phesyologies,nutrition,createDoctor,loginDoctor,getdoctor};
+module.exports={getDoctors,phesyologies,nutrition,createDoctor,loginDoctor,getdoctor,updateDoctor};

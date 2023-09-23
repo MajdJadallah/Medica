@@ -3,6 +3,7 @@ import { Picker } from '@react-native-picker/picker';
 import {View,Text,TouchableOpacity,TextInput,StyleSheet,ScrollView,Image} from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRoute } from '@react-navigation/native';
+import axios from "axios";
 
 
 function Profile({ navigation }) {
@@ -25,10 +26,41 @@ function Profile({ navigation }) {
     // You can use libraries like react-native-image-picker or react-native-camera
   };
 
-  const savePress=()=>{
+  const savePress=async()=>{
     console.log("update profile");
+
+    const userData = {
+      name: name,
+      username:name,
+      phone: phone,
+      healthIssue: healthIsuue,
+      dob: dob,
+      role: role,
+      workingTime: workingTime,
+      employer: employer,
+      about: about,
+    };
+    try {
+      let apiUrl =
+        role === 'doctor'
+          ? `https://6e2e-2a01-9700-159d-7900-81ed-c2e1-1e39-b52.ngrok-free.app/api/doctors/edit/${adminId}`
+          : `https://6e2e-2a01-9700-159d-7900-81ed-c2e1-1e39-b52.ngrok-free.app/api/users/edit/${adminId}`;
+      const response = await axios.patch(apiUrl, userData);
+      if (response.status === 200) {
+        console.log('User data updated successfully:', response.data);
+        // Redirect to the home screen or perform any other action you need
+        navigation.navigate('Home', { adminId, role });
+      } else {
+        console.error('Failed to update user data:', response.data);
+      }
+    } catch (error) {
+      console.error('Error updating user data:', error);
+    }
+
     navigation.navigate("Home", { adminId , role });
   }
+
+
   // useEffect(() => {
   //   // Remove the profile data from AsyncStorage
   //   const removeProfileData = async () => {

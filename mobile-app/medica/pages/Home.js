@@ -49,10 +49,8 @@ useEffect(() => {
 }, []);
 
 
-
-
 const renderItem = ({ item }) => (
-  <TouchableOpacity style={styles.card} onPress={()=>{navigation.navigate(item.navigation, { category: item.name })}}>
+  <TouchableOpacity style={styles.card} onPress={()=>{navigation.navigate(item.navigation, { category: item.name ,userData})}}>
    <View style={styles.iconContainer}>
     <FontAwesomeIcon name={item.iconName} size={40} color="#5774CB" />
    </View>

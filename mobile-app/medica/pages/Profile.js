@@ -2,38 +2,49 @@ import React, { useState,useEffect } from 'react';
 import { Picker } from '@react-native-picker/picker';
 import {View,Text,TouchableOpacity,TextInput,StyleSheet,ScrollView,Image} from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRoute } from '@react-navigation/native';
 
-function Profile({ route, navigation }) {
+
+function Profile({ navigation }) {
+  const route = useRoute();
+  // const { role } = route.params;
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
-  // const [gender, setGender] = useState('');
+  const [healthIsuue, setHealthIssue] = useState('');
   const [dob, setDob] = useState('');
-  const [specialist, setSpecialist] = useState('');
+  const [role, setRole] = useState(route.params.role);
   const [workingTime, setWorkingTime] = useState('');
   const [employer, setEmployer] = useState('');
   const [about, setAbout] = useState('');
   
   const { adminId } = route.params;
+  console.log(adminId);
   const handleImageUpload = () => {
     console.log("hello profile image");
     // Implement image upload logic here+
     // You can use libraries like react-native-image-picker or react-native-camera
   };
-  useEffect(() => {
-    // Remove the profile data from AsyncStorage
-    const removeProfileData = async () => {
-      try {
-        await AsyncStorage.removeItem("profile");
-        console.log("Profile data removed from AsyncStorage");
-      } catch (error) {
-        console.log("Error removing profile data:", error);
-      }
-    };
 
-    removeProfileData();
+  const savePress=()=>{
+    console.log("update profile");
+    navigation.navigate("Home", { adminId , role });
+  }
+  // useEffect(() => {
+  //   // Remove the profile data from AsyncStorage
+  //   const removeProfileData = async () => {
+  //     try {
+  //       await AsyncStorage.removeItem("profile");
+  //       console.log("Profile data removed from AsyncStorage");
+  //     } catch (error) {
+  //       console.log("Error removing profile data:", error);
+  //     }
+  //   };
 
-  }, []);
+    // removeProfileData();
+
+  // }, []);
   const id={adminId};
+
   return (
     <View style={styles.container}>
 
@@ -60,15 +71,17 @@ function Profile({ route, navigation }) {
      onChangeText={(text) => setPhone(text)}
      keyboardType="phone-pad"
    />
-   {/* <Picker
+   <Picker
      style={styles.input}
-     selectedValue={gender}
-     onValueChange={(itemValue) => setGender(itemValue)}
+     selectedValue={healthIsuue}
+     onValueChange={(itemValue) => setHealthIssue(itemValue)}
    >
-     <Picker.Item label="Select Gender" value="" />
+     <Picker.Item label="Health issue" value="" />
      <Picker.Item label="Male" value="male" />
      <Picker.Item label="Female" value="female" />
-   </Picker> */}
+     <Picker.Item label="Female" value="female" />
+     <Picker.Item label="Female" value="female" />
+   </Picker>
    <TextInput
      style={styles.input}
      placeholder="Date of Birth"
@@ -76,13 +89,13 @@ function Profile({ route, navigation }) {
      onChangeText={(text) => setDob(text)}
    />
 {/**********************Additional fields for doctors *****************************/}
-      {specialist !== 'doctor' ? null : (
+      {role !== 'doctor' ? null : (
         <>
           <TextInput
             style={styles.input}
             placeholder="Specialist"
-            value={specialist}
-            onChangeText={(text) => setSpecialist(text)}
+            value={role}
+            onChangeText={(text) => setRole(text)}
           />
           <TextInput
             style={styles.input}
@@ -105,9 +118,10 @@ function Profile({ route, navigation }) {
           />
         </>
       )}
-      
+
     </ScrollView>
-    <TouchableOpacity style={styles.saveButton}>
+    <TouchableOpacity style={styles.saveButton}
+    onPress={savePress}>
         <Text style={styles.saveButtonText}>Save</Text>
       </TouchableOpacity>
     </View>

@@ -28,7 +28,7 @@ function SignUp() {
         email,
         password,
         role,
-        name:username, 
+        name:username,
       };
       const response = await axios.post(
         url,dataToSend);
@@ -39,6 +39,7 @@ function SignUp() {
 
         await AsyncStorage.setItem('user', JSON.stringify(userData));
         await AsyncStorage.setItem('profile', JSON.stringify(true));
+        // await AsyncStorage.setItem('role', JSON.stringify(role));
 
         navigation.navigate('SignIn');
       } else if (response.status === 300) {

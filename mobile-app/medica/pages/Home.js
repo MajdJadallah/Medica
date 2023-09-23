@@ -5,6 +5,7 @@ import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 import profile from '../assets/user.png'
 import axios from 'axios';
+import { useRoute } from '@react-navigation/native';
 
 
 
@@ -14,27 +15,43 @@ const categories = [
  { id: '3', name: 'Nutrition', iconName: 'apple',navigation:"Nutrition"  },
  { id: '4', name: 'Phsyology', iconName: 'heart-o',navigation:"Phsyology serviecs"  },
 ];
-function Home({route}) {
-  const { adminId } = route.params;
-  const url="https://6e2e-2a01-9700-159d-7900-81ed-c2e1-1e39-b52.ngrok-free.app/api/users"
-  const [username, setUsername] = useState('');
-  useEffect(() => {
-    axios.get(`https://6e2e-2a01-9700-159d-7900-81ed-c2e1-1e39-b52.ngrok-free.app/api/users/${adminId}`)
+function Home() {
+  const route = useRoute();
+const { adminId, role } = route.params;
+console.log(role);
+
+// Define the base URL based on the role
+let url = "https://6e2e-2a01-9700-159d-7900-81ed-c2e1-1e39-b52.ngrok-free.app/api/users/";
+
+if (role === 'doctor') {
+  url = "https://6e2e-2a01-9700-159d-7900-81ed-c2e1-1e39-b52.ngrok-free.app/api/doctors/";
+}
+
+const [username, setUsername] = useState('');
+
+useEffect(() => {
+  axios.get(`${url}${adminId}`)
     .then((response) => {
-    const user = response.data.user;
-    console.log(user);
-    setUsername(user);
+      console.log('Response Data:', response.data); // Log the entire response data
+      const userData = role === 'doctor' ? response.data.doctor : response.data.user;
+
+      if (role==='user'&& userData && userData.username) {
+        setUsername(userData.username);
+      } else if((role==='doctor'&& userData && userData.name)){
+        setUsername(userData.name);
+      }else{
+        console.error('User data or name not found in response');
+      }
     })
     .catch((error) => {
-    console.error('Error:', error);
+      console.error('Error:', error);
     });
-  }, []);
+}, []);
 
 
 
 
- const navigation = useNavigation();
- const renderItem = ({ item }) => (
+const renderItem = ({ item }) => (
   <TouchableOpacity style={styles.card} onPress={()=>{navigation.navigate(item.navigation, { category: item.name })}}>
    <View style={styles.iconContainer}>
     <FontAwesomeIcon name={item.iconName} size={40} color="#5774CB" />
@@ -42,7 +59,6 @@ function Home({route}) {
    <Text style={styles.cardTitle}>{item.name}</Text>
   </TouchableOpacity>
  );
-
 return (
  <View style={styles.container}>
  <View style={styles.user}>
@@ -50,7 +66,7 @@ return (
  <Image source={profile}/>
  <View>
   <Text style={styles.welcome}>Good Morning 👋</Text>
-  <Text style={styles.name}>{username.username}</Text>
+  <Text style={styles.name}>{username}</Text>
   </View>
   </View>
   <View style={styles.icons}>

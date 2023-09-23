@@ -5,16 +5,16 @@ const AdminModel=require('../models/Admins');
 const mongoose = require('mongoose');
 
 const UserController= async (req, res) => {
-    try {
-      const users = await UserModel.find();
-        // const formattedResponse = JSON.stringify(users, null, 2);
-        res.status(200).json({users:users});
-        console.log('response get')
-    } catch (error) {
-      console.error("Error fetching users:", error);
-      res.status(500).json({ error: "Error fetching users" });
-    }
+  try {
+    const users = await UserModel.find();
+      const formattedResponse = JSON.stringify(users, null, 2);
+      res.status(200).json({users:users});
+      console.log('response get')
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    res.status(500).json({ error: "Error fetching users" });
   }
+}
 
 //Get Single user
 const getuser= async (req,res)=>{

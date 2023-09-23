@@ -53,7 +53,7 @@ console.log(error.message)
 
 
  /*      Regestration System        */
-app.get('/users', UserController);
+app.get('/api/users', UserRoutes);
 // app.get('/users/:id', getUser);
 // create user
 app.post("/createUser", CreateUser);

@@ -1,6 +1,7 @@
 const DoctorsModel =require('../models/Doctors');
 const bcrypt = require('bcrypt');
 const jwt=require('jsonwebtoken');
+const mongoose = require('mongoose');
 
 //get the doctors for mobile devices
 const getDoctors =async (req,res)=>{
@@ -11,6 +12,21 @@ const getDoctors =async (req,res)=>{
     res.status(400).json({Error: error.message})
     }
 }
+
+
+const getdoctor= async (req,res)=>{
+  const {id}=req.params;
+  if(!mongoose.Types.ObjectId.isValid(id)){
+  res.status(404).json({error:"doctor not found"});
+  }
+  const doctor= await DoctorsModel.findById(id)
+  if(!doctor){
+      res.status(404).json({error:"doctor not found"})
+  }
+  res.status(200).json({doctor})
+  }
+
+
 //get phesyology
 const phesyologies=async (req,res)=>{
 try{
@@ -83,7 +99,7 @@ const loginDoctor = async (req, res) => {
     const year = String(currentDate.getFullYear()).slice(-2);
     const formattedDate = `${day}/${month}/${year}`;
     console.log(`Doctor ${doctor.email} logged in at ${formattedDate}`);
-    return res.json({ token, doctorId: doctor._id }); // Changed "adminId" to "doctorId"
+    return res.json({ token, adminId: doctor._id });
   } catch (err) {
     // Log the error for debugging
     console.error(err);
@@ -91,4 +107,4 @@ const loginDoctor = async (req, res) => {
   }
 };
   
-module.exports={getDoctors,phesyologies,nutrition,createDoctor,loginDoctor};
+module.exports={getDoctors,phesyologies,nutrition,createDoctor,loginDoctor,getdoctor};

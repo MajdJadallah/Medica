@@ -19,9 +19,13 @@ const Registration = () => {
 
   const validationSchema = Yup.object().shape({
     username: Yup.string().required('*Username is required').matches(/^[A-Za-z]+$/, 'Username must not contain numbers'),
-    password: Yup.string().required('*Password is required').min(6, 'Password must be at least 6 characters').matches(/^(?=.*[!@#$%^&*])[A-Z][a-zA-Z!@#$%^&*]+$/, 'Password must start with a capital letter, contain at least one special character, and no numbers'),
+    password: Yup.string()
+      .required('*Password is required')
+      .min(6, 'Password must be at least 6 characters')
+      .matches(/^(?=.*[!@#$%^&*])[A-Z0-9][a-zA-Z0-9!@#$%^&*]+$/, 'Password must start with a capital letter, contain at least one special character, and can include numbers'),
     email: Yup.string().required('*Email is required').email('*Invalid email address'),
   });
+  
 
   const navigate = useNavigate();
 

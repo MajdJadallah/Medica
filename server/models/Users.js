@@ -28,6 +28,9 @@ const userSchema = new mongoose.Schema({
  avatar: {
  type: String,
  },
+ date:{
+    type: String,
+ }
 });
 
 const UserModel = mongoose.model('User', userSchema);

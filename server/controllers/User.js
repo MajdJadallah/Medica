@@ -61,6 +61,7 @@ const getuser= async (req,res)=>{
         username: username,
         password: hashedPassword,
         email: email,
+        date: new Date().toLocaleDateString("en-GB")
       });
       await newUser.save();
       return res.json({ message: "User created successfully", user: newUser });
@@ -107,24 +108,29 @@ const getuser= async (req,res)=>{
 
   //Creat Admin
 
-const signUp = async (req,res)=> {
-  try{
-  const {username,password,email}=req.body;
-  const admin = await AdminModel.findOne({email});
-   admin && res.json({message:"the user is already registered"})
+  const signUp = async (req, res) => {
+    try {
+      const { username, password, email } = req.body;
+  
+      // Check if the user already exists
+      const admin = await AdminModel.findOne({ email });
+      if (admin) {
+        return res.status(400).json({ message: "User already registered" });
+      }
+      const hashedPassword = bcrypt.hashSync(password, 10);
+      const newAdmin = new AdminModel({
+        username: username,
+        password: hashedPassword,
+        email: email,
+        date: new Date().toLocaleDateString("en-GB") // Format as dd/mm/yy
+      });
+      await newAdmin.save();
+      return res.json({ message: "User created successfully" });
+    } catch (err) {
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+  };
 
-  const hashedPassword=bcrypt.hashSync(password,10);
-  const newAdmin= new AdminModel({
-      username: username,
-      password: hashedPassword,
-      email:email
-    });
-  await newAdmin.save();
-    return res.json({ message: "User created successfully" });
-  } catch (err) {
-    return res.status(500).json({ error: "Internal Server Error" });
-  }
-}
 
 
 const login = async (req,res)=> {

@@ -1,4 +1,4 @@
-1-profile screens connect with the backend (Doing)
+1-profile screens connect with the backend (Done)
 2-dashboard should control the admin and superAdmin (Doing)
 __________________________________________________________________________________________________________________
 
@@ -7,6 +7,6 @@ ________________________________________________________________________________
 5-know illens based on the user health issue
 6-navigation between the screens
 __________________________________________________________________________________________________________________
-7-bottom bar should contain the advices and the profile and home
+7-bottom bar should contain the advices and the profile and home and help for the FAQ
 8-upload images in the backend
 9-controll the communities inside the app

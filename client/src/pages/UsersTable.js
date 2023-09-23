@@ -9,7 +9,7 @@ function UsersTable() {
   useEffect(() => {
     Axios.get('http://localhost:8080/api/users')
       .then((response) => {
-        setUsers(response.data);
+        setUsers(response.data.users);
         console.log(users);
       })
       .catch((error) => {
@@ -40,14 +40,14 @@ function UsersTable() {
                   </tr>
                 </thead>
                 <tbody>
-                  {users.map((user) => (
+                  {users.map((user,index) => (
                     <tr key={user.id}>
-                      <th scope="row">{user.id}</th>
-                      <td>{user.name}</td>
+                      <th scope="row">{index+1}</th>
+                      <td>{user.username}</td>
                       <td>{user.gender}</td>
                       <td>{user.email}</td>
                       <td>{user.date}</td>
-                      <td>{user.healthIssue}</td>
+                      <td>{user.health_issue}</td>
                     </tr>
                   ))}
                 </tbody>

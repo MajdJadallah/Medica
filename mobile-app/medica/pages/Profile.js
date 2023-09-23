@@ -33,7 +33,7 @@ function Profile({ navigation }) {
       name: name,
       username:name,
       phone: phone,
-      healthIssue: healthIsuue,
+      health_issue: healthIsuue,
       dob: dob,
       role: role,
       workingTime: workingTime,

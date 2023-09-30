@@ -8,7 +8,7 @@ const categories = [
     { id: '1', name: 'Articles', iconName: 'file-text-o',navigation:"Articles"  },
     { id: '2', name: 'Specialiest', iconName: 'user-md',navigation:"Doctors" },
     { id: '3', name: 'Nutrition centers', iconName: 'hospital-o',navigation:"Hospitals"  },
-    { id: '4', name: 'Relation', iconName: 'users',navigation:"Advices" },
+    // { id: '4', name: 'Relation', iconName: 'users',navigation:"Advices" },
 ];
 function Nutrition () {
     const navigation = useNavigation();
@@ -31,8 +31,8 @@ function Nutrition () {
                 data={categories}
                 renderItem={renderItem}
                 keyExtractor={(item) => item.id}
-                numColumns={2} // Display 2 columns
-                columnWrapperStyle={styles.columnWrapper}
+                numColumns={1} // Display 2 columns
+               // columnWrapperStyle={styles.columnWrapper}
             />
     </View>
   )

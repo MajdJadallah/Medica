@@ -10,6 +10,7 @@ const getIllenese =async (req,res)=>{
     res.status(400).json({Error: error.message})
     }
 }
+
 //get single article
 const getIllens= async (req,res)=>{
     const {id}=req.params;

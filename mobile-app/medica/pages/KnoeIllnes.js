@@ -25,6 +25,11 @@ const [issues,setIssues] = useState("");
       console.error('Error:', error);
       });
     }, []);
+    const formatDate = (dateString) => {
+      const options = { day: 'numeric', month: 'long', year: '2-digit' };
+      const date = new Date(dateString);
+      return date.toLocaleDateString('en-GB', options);
+    };
   return (
     <View style={styles.container}>
       <TextInput style={styles.input}
@@ -35,7 +40,7 @@ const [issues,setIssues] = useState("");
       <Image source={{ uri:issue.avatar }} style={styles.image}/>
       <Text style={styles.h2}>Know more</Text>
       <Text style={styles.issueTitle}>{issue.title}</Text>
-      <Text style={styles.date}>{issue.date}</Text>
+      <Text style={styles.date}>{formatDate(issue.date)}</Text>
       <Text style={styles.essay}>{issue.content}</Text>
       </ScrollView>
     </View>
@@ -78,7 +83,8 @@ essay:{
  lineHeight:20,
 },
 date:{
- color:"#B5B5B5"
+ color:"#B5B5B5",
+ marginBottom:10,
 },
 issueTitle:{
  fontWeight:"bold",

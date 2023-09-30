@@ -18,11 +18,13 @@ function Articles({ route }) {
         if (category === "Nutrition") {
           filteredArticles = allArticles.filter((article) => article.type === "nutrition");
           trendingArticles=filteredArticles.filter((trendArticle)=>trendArticle.trending===true)
+          newsetArticles=filteredArticles.filter((trendArticle)=>trendArticle.trending===false)
         } else if (category === "Physiology") {
           filteredArticles = allArticles.filter((article) => article.type === "physiology");
           trendingArticles=filteredArticles.filter((trendArticle)=>trendArticle.trending===true)
+          newsetArticles=filteredArticles.filter((trendArticle)=>trendArticle.trending===false)
         }
-        setArticles(filteredArticles);
+        setArticles(newsetArticles);
         setTrending(trendingArticles);
         console.log('Data received:', filteredArticles);
         console.log('Data received trendingArticles:', trendingArticles);
@@ -34,7 +36,7 @@ function Articles({ route }) {
   const renderArticle = ({ item }) => (
     <TouchableOpacity style={styles.articleContainer} key={item.id} onPress={()=>{navigation.navigate('ArticleDetails',{ articleID: item._id })}}>
       <View style={styles.article}>
-        <Image source={require('../assets/article.png')} style={styles.image} />
+        <Image source={{uri:item.avatar}} style={styles.image} />
         <Text style={styles.articleName}>{item.title}</Text>
       </View>
     </TouchableOpacity>
@@ -42,7 +44,7 @@ function Articles({ route }) {
   const renderNews= ({ item }) => (
     <TouchableOpacity style={styles.articleContainer} key={item.id} onPress={()=>{navigation.navigate('ArticleDetails',{ articleID: item._id })}}>
       <View style={styles.articleNew}>
-        <Image source={require('../assets/article2.png')} style={styles.imageNew} />
+        <Image source={{uri:item.avatar}} style={styles.imageNew} />
         <View>
         <Text style={styles.date}>{item.publishedDate}</Text>
         <Text style={styles.articleName}>{item.title}</Text>

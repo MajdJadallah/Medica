@@ -24,13 +24,13 @@ function ArticleDetails({route}) {
 
   return (
     <View style={styles.container}>
-    <Image source={image} style={styles.image}/>
+    <Image source={{uri:article.avatar}} style={styles.image}/>
       <View>
       <Text style={styles.text}>{article.title} </Text>
       <Text style={styles.Date}>{article.publishedDate}</Text>
       </View>
       <ScrollView>
-      <Text style={styles.article}>{article.content}</Text>
+      <Text style={styles.article}>{article.description}</Text>
       </ScrollView>
     </View>
   )
@@ -48,12 +48,15 @@ const styles = StyleSheet.create({
  },
  image:{
  borderRadius: 24,
- marginBottom:20
+ marginBottom:20,
+ width:"100%",
+ height:200,
  },
  text:{
  fontSize:18,
  fontWeight:"bold",
- marginBottom:10
+ marginBottom:10,
+ width:380
  },
  Date:{
  textAlign:"justify",

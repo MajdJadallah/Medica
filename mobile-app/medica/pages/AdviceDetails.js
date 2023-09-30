@@ -34,7 +34,7 @@ function AdviceDetails({route}) {
   const renderItem = ({ item }) => (
     <TouchableOpacity style={styles.card} onPress={() => { navigation.navigate('AdviceDetails',{ adviceID: item._id }) }}>
     <View style={styles.iconContainer}>
-      <Image source={image2} style={styles.image} />
+      <Image source={{uri:item.avatar}} style={styles.image} />
       <View style={styles.text}>
         <View style={styles.like}>
           <Text style={styles.nameDoctor}>{item.title}</Text>
@@ -50,7 +50,7 @@ function AdviceDetails({route}) {
 return (
   <ScrollView style={styles.container}>
     <View style={styles.content}>
-      <Image source={image} style={styles.imageArtile} />
+      <Image source={{uri:advice.avatar}} style={styles.imageArtile} />
       <View>
         <Text style={styles.Advice}>{advice.title}</Text>
         <Text style={styles.Date}>{advice.Date}</Text>
@@ -82,11 +82,14 @@ flat:{
 image: {
   borderRadius: 24,
   marginBottom: 20,
+  width:100,
+  height:100,
 },
 imageArtile: {
   borderRadius: 16,
   marginBottom: 20,
   width:"100%",
+  height:200
   // minHeight:300
 },
 Advice: {

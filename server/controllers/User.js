@@ -74,7 +74,6 @@ const getuser= async (req,res)=>{
       const { username, password, email } = req.body;
       const user = await UserModel.findOne({ email });
       if (user) {
-        // User with the same email already exists, return an error response
         return res.json({ message: "The user is already registered" });
       }
       const hashedPassword = bcrypt.hashSync(password, 10);
@@ -95,7 +94,6 @@ const getuser= async (req,res)=>{
   const loginUser = async (req, res) => {
     try {
       const { email, password } = req.body;
-      // Validate inputs
       if (!email || !password) {
         return res.status(400).json({ error: "Email and password are required" });
       }
@@ -107,11 +105,7 @@ const getuser= async (req,res)=>{
       if (!isPasswordValid) {
         return res.status(401).json({ error: "Username or password is incorrect" });
       }
-      // Generate and send JWT token
       const token = jwt.sign({ id: user._id }, process.env.SECRET);
-      // Log the successful login if needed
-      // Add more detailed logging as required
-
       const currentDate = new Date();
       const day = String(currentDate.getDate()).padStart(2, '0');
       const month = String(currentDate.getMonth() + 1).padStart(2, '0');

@@ -11,30 +11,43 @@ function FAQ() {
   });
 
   useEffect(() => {
-    axios.get('')
-    .then(()=>{})
-    .catch(()=>{})
-  })
+    axios.get('http://localhost:8080/api/faq')
+    .then((res)=>{
+      setFAQs(res.data.FAQS);
+      console.log(faqs);
+    })
+    .catch((error)=>{
+      console.log(error);
+    })
+
+    axios.post()
+    .then((response)=>{
+      console.log(response.data);
+    })
+    .catch((error)=>{console.log(error)});
+  },[]);
   return (
     <div>
     <div className='row d-flex' id='dashboard'>
             <div className='col-md-2 aside-left'>
               <AsideLeft />
             </div>
-            <div className='col-md-10 main'>
+            <div className='col-md-10 main px=0'>
               <Header/>
             <h1 id='titleFQA'>FAQ</h1>
             <div id='main-FAQ'>
-                <div id='display-FQA'>
-                    <div id='FQA-card' className='card1'>
-                        <div id='deleteFAQ'>
-                        <h3>What is Medica?</h3>
+                <div id='display-FQA' className='col-md-7'>
+                    {faqs.map((item) => (
+                      <div className='FQA-card card1' key={item._id}>
+                        <div className='deleteFAQ'>
+                        <h3>{item.question}</h3>
                         <button>delete</button>
                         </div>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                        <p>{item.answer}</p>
                     </div>
+                    ))}
                 </div>
-                <div className='addFQA'>
+                <div className='addFQA col-md-4'>
                     <form id='form-FQA' className='card1'>
                         <div id='div-input'>
                         <label>Question</label>

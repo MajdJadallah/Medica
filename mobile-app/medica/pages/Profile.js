@@ -1,55 +1,54 @@
 import React, { useState,useEffect } from 'react';
 import { Picker } from '@react-native-picker/picker';
 import {View,Text,TouchableOpacity,TextInput,StyleSheet,ScrollView,Image} from 'react-native';
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRoute } from '@react-navigation/native';
 import axios from "axios";
 
 
 function Profile({ navigation }) {
   const route = useRoute();
-  // const { role } = route.params;
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
-  const [healthIsuue, setHealthIssue] = useState('');
+  const [healthIssue, setHealthIssue] = useState('Rheumatoid Arthritis'); // Initialize with a default value
   const [dob, setDob] = useState('');
   const [role, setRole] = useState(route.params.role);
   const [workingTime, setWorkingTime] = useState('');
   const [employer, setEmployer] = useState('');
   const [about, setAbout] = useState('');
-  
+
+
   const { adminId } = route.params;
   console.log(adminId);
   const handleImageUpload = () => {
     console.log("hello profile image");
-    // Implement image upload logic here+
-    // You can use libraries like react-native-image-picker or react-native-camera
   };
 
-  const savePress=async()=>{
-    console.log("update profile");
-
-    const userData = {
-      name: name,
-      username:name,
-      phone: phone,
-      health_issue: healthIsuue,
-      dob: dob,
-      role: role,
-      workingTime: workingTime,
-      employer: employer,
-      about: about,
-    };
+const savePress=async()=>{
+   console.log("update profile");
+  const userData = {
+  name: name,
+  username: name,
+  phone: phone,
+  healthIssue: healthIssue,
+  dob: dob,
+  role: role,
+  workingTime: workingTime,
+  employer: employer,
+  about: about,
+  };
     try {
+      console.log(`health issue:${healthIssue}`)
       let apiUrl =
         role === 'doctor'
           ? `https://6e2e-2a01-9700-159d-7900-81ed-c2e1-1e39-b52.ngrok-free.app/api/doctors/edit/${adminId}`
           : `https://6e2e-2a01-9700-159d-7900-81ed-c2e1-1e39-b52.ngrok-free.app/api/users/edit/${adminId}`;
+
+
       const response = await axios.patch(apiUrl, userData);
       if (response.status === 200) {
         console.log('User data updated successfully:', response.data);
         // Redirect to the home screen or perform any other action you need
-        navigation.navigate('Home', { adminId, role });
+        navigation.navigate('Home', { adminId, role ,userData});
       } else {
         console.error('Failed to update user data:', response.data);
       }
@@ -57,24 +56,11 @@ function Profile({ navigation }) {
       console.error('Error updating user data:', error);
     }
 
-    navigation.navigate("Home", { adminId , role });
+    navigation.navigate("Home", { adminId , role ,userData});
   }
 
 
-  // useEffect(() => {
-  //   // Remove the profile data from AsyncStorage
-  //   const removeProfileData = async () => {
-  //     try {
-  //       await AsyncStorage.removeItem("profile");
-  //       console.log("Profile data removed from AsyncStorage");
-  //     } catch (error) {
-  //       console.log("Error removing profile data:", error);
-  //     }
-  //   };
 
-    // removeProfileData();
-
-  // }, []);
   const id={adminId};
 
   return (
@@ -103,23 +89,24 @@ function Profile({ navigation }) {
      onChangeText={(text) => setPhone(text)}
      keyboardType="phone-pad"
    />
-   <Picker
-     style={styles.input}
-     selectedValue={healthIsuue}
-     onValueChange={(itemValue) => setHealthIssue(itemValue)}
-   >
-     <Picker.Item label="Health issue" value="" />
-     <Picker.Item label="Male" value="male" />
-     <Picker.Item label="Female" value="female" />
-     <Picker.Item label="Female" value="female" />
-     <Picker.Item label="Female" value="female" />
-   </Picker>
    <TextInput
      style={styles.input}
      placeholder="Date of Birth"
      value={dob}
      onChangeText={(text) => setDob(text)}
    />
+   <Picker
+   style={styles.input}
+   selectedValue={healthIssue}
+   onValueChange={(itemValue) => setHealthIssue(itemValue)}
+   >
+   <Picker.Item label="Rheumatoid Arthritis" value="Rheumatoid Arthritis" />
+   <Picker.Item label="Addison's Disease" value="Addison's Disease" />
+   <Picker.Item label="Muscle Atrophy" value="Muscle Atrophy" />
+   <Picker.Item label="Multiple Sclerosis" value="Multiple Sclerosis" />
+   <Picker.Item label="Parkinson's Disease" value="Parkinson's Disease" />
+  </Picker>
+
 {/**********************Additional fields for doctors *****************************/}
       {role !== 'doctor' ? null : (
         <>

@@ -15,6 +15,7 @@ function Doctors({ route }) {
     axios.get(" https://6e2e-2a01-9700-159d-7900-81ed-c2e1-1e39-b52.ngrok-free.app/api/doctors")
       .then((response) => {
         const allDoctors = response.data;
+        console.log(allDoctors);
         let filteredDoctors = [];
         if (category === "Nutrition") {
           filteredDoctors = allDoctors.filter((doctor) => doctor.type === "Nutrition");
@@ -37,7 +38,7 @@ function Doctors({ route }) {
   const renderItem = ({ item }) => (
     <TouchableOpacity style={styles.card}>
       <View style={styles.iconContainer}>
-        <Image source={require("../assets/doctor1.png")} style={styles.image} />
+        <Image source={{ uri:item.avatar }} style={styles.image} />
         <View style={styles.text}>
           <View style={styles.like}>
           <Text style={styles.nameDoctor}>{item.name}</Text>
@@ -104,6 +105,9 @@ const styles = StyleSheet.create({
   },
   image:{
     borderRadius: 10,
+    width: 100,
+    height:100,
+
   },
   iconContainer: {
     flexDirection: "row",

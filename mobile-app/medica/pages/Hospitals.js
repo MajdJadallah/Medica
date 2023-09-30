@@ -38,7 +38,7 @@ function Hospitals({ route }){
  const renderItem = ({ item }) => (
  <TouchableOpacity style={styles.card}>
   <View style={styles.iconContainer}>
-   <Image source={require("../assets/hospital1.png")} style={styles.image} />
+   <Image source={{ uri:item.avatar }} style={styles.image} />
    <View style={styles.text}>
     <View style={styles.like}>
       <Text style={styles.nameHospital}>{item.name}</Text>
@@ -98,7 +98,9 @@ card: {
 width: "50%",
 },
 image: {
- borderRadius: 10,
+  borderRadius: 10,
+  width: 100,
+  height:100,
 },
 iconContainer: {
  flexDirection: "row",

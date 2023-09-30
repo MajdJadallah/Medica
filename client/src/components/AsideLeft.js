@@ -25,7 +25,7 @@ function AsideLeft() {
       localStorage.removeItem('User');
       localStorage.removeItem('userID');
       removeCookie('access_token', { path: '/' });
-      navigate('/login');
+      navigate('/signin');
     }
 
 

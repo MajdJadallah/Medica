@@ -97,6 +97,7 @@ padding: 1rem 2rem;
 box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 border-radius:15px ;
 min-width: 15rem;
+margin-bottom: 2rem;
 }
 #user{
 height: 2rem;
@@ -178,7 +179,7 @@ gap: .5rem;
 #div-input label{
 font-weight: 700;
 margin-bottom: 1rem;
-color: #55697E;
+color: #5774CB;
 font-size: 1.1rem;
 }
 #div-input input{
@@ -192,22 +193,32 @@ border-radius:15px ;
 padding: 1rem;
 }
 #titleFQA{
-color: #55697E;
+color: #5774CB;
 margin: 0;
 }
 #submit{
-background-color:#55697E;
+background-color:#5774CB;
 color: #fff;
 border: none;
 font-weight: 600;
 font-size: .9rem;
 }
-#deleteFAQ{
+.deleteFAQ{
 display: flex;
 justify-content: space-between;
 align-items: center;
+gap: 1rem;
+margin-bottom: 2rem;
 }
-#deleteFAQ button{ background-color:#55697E; color: #fff; border: none; font-weight: 600; font-size: .9rem; height:fit-content; padding: .5rem ; border-radius: 5px;
+.deleteFAQ button{
+background-color:#5774CB;
+color: #fff;
+border: none;
+font-weight: 600;
+font-size: .9rem;
+height:fit-content;
+padding: .5rem ;
+border-radius: 5px;
 }
 .background{
 display: flex;
@@ -221,16 +232,16 @@ margin: 2rem 0 ;
 text-align: start;
 display: flex;
 flex-direction: column;
-align-items: start;
+align-items: flex-start;
 }
 .editInputRegister{
 padding: 1rem;
 border:1px solid #C0BEC2;
-color:#55697E;
+color:#5774CB;
 font-size: 1.2rem;
 }
 .editInputRegister :focus{
-border: 1px solid #55697E;
+border: 1px solid #5774CB;
 }
 #textRegister{
 text-align: start;
@@ -269,7 +280,7 @@ align-items: center;
 .form-group input{
 padding: 1rem;
 border:1px solid #C0BEC2;
-color:#55697E;
+color:#5774CB;
 font-size: 1.2rem;
 }
 form>.form-group> #signin{
@@ -297,5 +308,11 @@ gap: 0.5rem;
   max-width: 100%;
 }
 /******************User Table*********************/
-#user-table{ border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -ms-border-radius: 15px; -o-border-radius: 15px;
+#user-table{ 
+border-radius: 15px;
+}
+.radio-group{
+  display: flex;
+  /* justify-content: space-between; */
+  gap:1rem;
 }

@@ -2,6 +2,14 @@ const DoctorsModel =require('../models/Doctors');
 const bcrypt = require('bcrypt');
 const jwt=require('jsonwebtoken');
 const mongoose = require('mongoose');
+const cloudinary = require('cloudinary').v2;
+
+
+cloudinary.config({
+  cloud_name: 'dvmodwtsk',
+  api_key: '575355687719425',
+  api_secret: 'XUpZaTgm7htczwXF9ANJDAEFD9s',
+});
 
 //get the doctors for mobile devices
 const getDoctors =async (req,res)=>{
@@ -79,11 +87,22 @@ const updateDoctor = async (req, res) => {
     return res.status(404).json({ error: "User not found" });
   }
   try {
-    const user = await DoctorsModel.findByIdAndUpdate(id, req.body, { new: true });
+    const user = await DoctorsModel.findById(id);
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
-    return res.status(200).json({ user });
+    let imageUrl = user.avatar;
+    if (req.file) {
+      const result = await cloudinary.uploader.upload(req.file.path);
+      imageUrl = result.secure_url;
+    }
+    user.set({
+      ...req.body,
+      avatar: imageUrl,
+    });
+    const updatedUser = await user.save();
+    return res.status(200).json({ doctor: updatedUser });
+
   } catch (error) {
     res.status(500).json({ error: error.message });
     console.log("Internal server error: " + error);

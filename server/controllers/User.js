@@ -3,6 +3,14 @@ const jwt=require('jsonwebtoken');
 const UserModel=require('../models/Users');
 const AdminModel=require('../models/Admins');
 const mongoose = require('mongoose');
+const cloudinary = require('cloudinary').v2; 
+
+
+cloudinary.config({
+  cloud_name: 'dvmodwtsk',
+  api_key: '575355687719425',
+  api_secret: 'XUpZaTgm7htczwXF9ANJDAEFD9s',
+});
 
 const UserController= async (req, res) => {
   try {
@@ -29,24 +37,37 @@ const getuser= async (req,res)=>{
   res.status(200).json({user})
   }
 
+
   //edit user
-  const updateUser = async (req, res) => {
+    const updateUser = async (req, res) => {
     const { id } = req.params;
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(404).json({ error: "User not found" });
     }
     try {
-      const user = await UserModel.findByIdAndUpdate(id, req.body, { new: true });
+      const user = await UserModel.findById(id);
       if (!user) {
         return res.status(404).json({ error: "User not found" });
       }
-      return res.status(200).json({ user });
+      let imageUrl = user.avatar;
+      if (req.file) {
+        const result = await cloudinary.uploader.upload(req.file.path);
+        imageUrl = result.secure_url;
+      }
+      user.set({
+        ...req.body,
+        avatar: imageUrl,
+      });
+      const updatedUser = await user.save();
+      return res.status(200).json({ user: updatedUser });
     } catch (error) {
       res.status(500).json({ error: error.message });
-      console.log("Internal server error: " + error);
+      console.error("Internal server error:", error);
     }
   };
-  
+
+
+
   //Creat user
   const CreateUser = async (req, res) => {
     try {
@@ -152,6 +173,18 @@ if (!isPasswordValid) {
 }
 }
 
+//get single Admin 
+const getadmin= async (req,res)=>{
+  const {id}=req.params;
+  if(!mongoose.Types.ObjectId.isValid(id)){
+  res.status(404).json({error:"user not found"});
+  }
+  const user= await AdminModel.findById(id)
+  if(!user){
+      res.status(404).json({error:"user not found"})
+  }
+  res.status(200).json({user})
+  }
 
 
-  module.exports ={UserController,CreateUser,signUp,login,getuser,updateUser,loginUser}
+  module.exports ={UserController,CreateUser,signUp,login,getuser,updateUser,loginUser,getadmin}

@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 const DoctorSchema = new mongoose.Schema({
 name:{
-type: String, required: true
+type: String,
+required: true
 },
 email:{
 type: String,
@@ -13,7 +14,7 @@ type:String,
 required: true,
 },
 phone:{
-    type: Number
+    type: String
 },
 gender:{
     type: String

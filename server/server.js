@@ -9,12 +9,12 @@ const UserRoutes=require("./routes/UserRoutes")
 const IllenseRoutes=require("./routes/IllensesRouter")
 const mongoose= require('mongoose');
 
-
 const{
     UserController,
     CreateUser,
     signUp,
-    login
+    login,
+    getadmin,
 } = require ('../server/controllers/User.js');
 
 const app = express();
@@ -63,3 +63,4 @@ app.post("/createUser", CreateUser);
 app.post('/register', signUp);
 //login
 app.post('/login', login)
+app.get('/admin/:id', getadmin)

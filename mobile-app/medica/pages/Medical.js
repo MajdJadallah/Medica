@@ -14,9 +14,10 @@ function Medical () {
     const navigation = useNavigation();
     const route = useRoute()
     const categoryName = route.params?.category;
-
+    const {userData} = route.params;
+    console.log("userData is:-", userData);
     const renderItem = ({ item }) => (
-        <TouchableOpacity style={styles.card} onPress={()=>{navigation.navigate(item.navigation, { category:"/" })}}>
+        <TouchableOpacity style={styles.card} onPress={()=>{navigation.navigate(item.navigation, { category:"/" , userData: userData })}}>
             <View style={styles.iconContainer}>
                 <FontAwesomeIcon name={item.iconName} size={40} color="#5774CB" />
             </View>
@@ -30,7 +31,7 @@ function Medical () {
                 data={categories}
                 renderItem={renderItem}
                 keyExtractor={(item) => item.id}
-                numColumns={2} // Display 2 columns
+                numColumns={2}
                 columnWrapperStyle={styles.columnWrapper}
             />
     </View>
@@ -72,6 +73,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     },
     columnWrapper: {
-    justifyContent: 'space-between', // Align items in two columns
+    justifyContent: 'space-between',
     },
 })

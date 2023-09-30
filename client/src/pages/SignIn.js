@@ -5,8 +5,8 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import '../App.css';
 import { useCookies } from 'react-cookie';
-import logo from '../assets/logo-signup.svg'
-import { Link} from 'react-router-dom';
+import logo from '../assets/logo-signup.svg';
+import { Link } from 'react-router-dom';
 
 function SignIn() {
   return (
@@ -27,16 +27,17 @@ const Login = () => {
       .required('Password is required')
       .matches(
         /^(?=.*[!@#$%^&*])[A-Z][a-zA-Z!@#$%^&*]+$/,
-        'Password must start with a capital letter, contain at least one special character, and no numbers'
+        'Password must start with a capital letter, contain special character'
       ),
+    role: Yup.string().required('*Role is required'),
   });
-
 
   const onSubmit = async (values, { setSubmitting }) => {
     try {
       const response = await axios.post('http://localhost:8080/login', {
         email: values.email,
         password: values.password,
+        role: values.role, // Include the selected role in the request
       });
 
       if (response.data.token && response.data.adminId) {
@@ -57,31 +58,44 @@ const Login = () => {
   return (
     <div id='formLogin'>
       <Formik
-        initialValues={{ email: '', password: '' }}
+        initialValues={{ email: '', password: '', role: '' }}
         validationSchema={validationSchema}
         onSubmit={onSubmit}
       >
         {({ isSubmitting }) => (
           <div className='registerForm card1'>
-          <Form >
-          <img
-          src={logo}
-          alt='logo'/>
-            <h2>Welcome back! 👋🏻</h2>
-            <div className="form-group" style={{width:'100%'}}>
-              <Field type="text" id="email" name="email" placeholder='Email' />
-              <ErrorMessage name="email" component="div" className="error" />
+            <Form>
+              <img src={logo} alt='logo' />
+              <h2>Welcome back! 👋🏻</h2>
+              <div className="form-group" style={{ width: '100%' }}>
+                <Field type="text" id="email" name="email" placeholder='Email' />
+                <ErrorMessage name="email" component="div" className="error" />
 
-              <Field type="password" id="password" name="password" placeholder='Password' />
-              <ErrorMessage name="password" component="div" className="error" />
+                <Field type="password" id="password" name="password" placeholder='Password' />
+                <ErrorMessage name="password" component="div" className="error" />
 
-              <button type="submit" disabled={isSubmitting} className='button'>
-                Sign In
-              </button>
-            </div>
-            <div id='redirectSignIn'><p>Don't have an account? </p><Link to ='/'> Sign Up Instead</Link></div>
+                {/* Radio buttons for role selection */}
+                <div className="radio-group">
+                  <label>
+                    <Field type="radio" name="role" value="admin" />
+                    Admin
+                  </label>
+                  <label>
+                    <Field type="radio" name="role" value="super_admin" />
+                    Super Admin
+                  </label>
+                </div>
+                <ErrorMessage name="role" component="div" className="error" />
 
-          </Form>
+                <button type="submit" disabled={isSubmitting} className='button'>
+                  Sign In
+                </button>
+              </div>
+              <div id='redirectSignIn'>
+                <p>Don't have an account? </p>
+                <Link to='/'> Sign Up Instead</Link>
+              </div>
+            </Form>
           </div>
         )}
       </Formik>

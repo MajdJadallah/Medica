@@ -29,6 +29,7 @@ if (role === 'doctor') {
 
 const [username, setUsername] = useState('');
 const [avatar, setAvatar] = useState('');
+const [user, setUser] = useState('');
 
 useEffect(() => {
   axios.get(`${url}${adminId}`)
@@ -41,10 +42,12 @@ useEffect(() => {
       if (role==='user'&& userData && userData.username) {
         setUsername(userData.username);
         setAvatar(userData.avatar);
+        setUser(userData);
         console.log(`the avatar is :${userData.avatar}`);
       } else if((role==='doctor'&& userData && userData.name)){
         setUsername(userData.name);
         setAvatar(userData.avatar);
+        setUser(userData);
         console.log(`the avatar is :${userData.avatar}`);
       }else{
         console.error('User data or name not found in response');
@@ -75,8 +78,13 @@ return (
   </View>
   </View>
   <View style={styles.icons}>
-  <FontAwesomeIcon name='bell-o' color='#5774CB' size={20}/>
-  <FontAwesomeIcon name='heart-o' color='#5774CB' size={20}/>
+  <TouchableOpacity
+   onPress={() => {
+    navigation.navigate('Settings', {user: user });
+  }}  >
+  <FontAwesomeIcon name='user-o' color='#5774CB' size={25}/>
+  </TouchableOpacity>
+  <FontAwesomeIcon name='heart-o' color='#5774CB' size={25}/>
   </View>
   </View>
     <View style={styles.image}>
@@ -92,6 +100,7 @@ return (
       columnWrapperStyle={styles.columnWrapper}
       />
     </View>
+    {/* <BottomTab /> */}
   </View>
   )
 }

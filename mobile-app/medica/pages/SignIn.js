@@ -65,12 +65,12 @@ const onSignInPress = async () => {
     const { adminId } = response.data;
     const { doctorId } = response.data;
     const profile = await getData('profile');
-    navigation.navigate("Profile", { adminId , role ,doctorId});
-    // if (profile === true) { 
-    //   navigation.navigate("Profile",{ adminId , role ,doctorId});
-    // } else {
-    //   navigation.navigate("Home", { adminId , role ,doctorId});
-    // }
+    //navigation.navigate("Profile", { adminId , role ,doctorId});
+    if (profile === true) { 
+      navigation.navigate("Home", { adminId , role ,doctorId});
+    } else {
+      navigation.navigate("Profile",{ adminId , role ,doctorId});
+    }
     } else if (response.status === 404) {
       setLoginError("User not found. Sign up instead.");
     } else if (response.status === 400 || response.status === 401) {

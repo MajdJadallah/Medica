@@ -20,11 +20,11 @@ import ArticleDetails from './pages/ArticleDetails'
 import AdviceDetails from './pages/AdviceDetails'
 import Advices from './pages/Advices'
 import Community from './pages/Communites'
-
-
+import Settings from './pages/Settings'
 
 
 const Stack = createStackNavigator();
+
 export default function App() {
   return (
     <NavigationContainer>
@@ -49,6 +49,7 @@ export default function App() {
       <Stack.Screen name="Advices" component={Advices} />
       <Stack.Screen name="AdviceDetails" component={AdviceDetails} />
       <Stack.Screen name="Community" component={Community} />
+      <Stack.Screen name="Settings" component={Settings} />
     </Stack.Navigator>
     </NavigationContainer>
   );

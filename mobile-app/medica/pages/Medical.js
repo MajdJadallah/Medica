@@ -8,7 +8,7 @@ const categories = [
     { id: '1', name: 'Know illens', iconName: 'file-text-o',navigation:"Know illnes"  },
     { id: '2', name: 'Doctors', iconName: 'user-md',navigation:"Doctors"  },
     { id: '3', name: 'Hospitals', iconName: 'hospital-o',navigation:"Hospitals" },
-    { id: '4', name: 'Community', iconName: 'users',navigation:"Community"  },
+    // { id: '4', name: 'Community', iconName: 'users',navigation:"Community"  },
 ];
 function Medical () {
     const navigation = useNavigation();
@@ -17,7 +17,7 @@ function Medical () {
     const {userData} = route.params;
     console.log("userData is:-", userData);
     const renderItem = ({ item }) => (
-        <TouchableOpacity style={styles.card} onPress={()=>{navigation.navigate(item.navigation, { category:"/" , userData: userData })}}>
+        <TouchableOpacity style={styles.card} onPress={()=>{navigation.navigate(item.navigation, { category:"Medical" , userData: userData })}}>
             <View style={styles.iconContainer}>
                 <FontAwesomeIcon name={item.iconName} size={40} color="#5774CB" />
             </View>
@@ -31,8 +31,8 @@ function Medical () {
                 data={categories}
                 renderItem={renderItem}
                 keyExtractor={(item) => item.id}
-                numColumns={2}
-                columnWrapperStyle={styles.columnWrapper}
+                // numColumns={1}
+                // columnWrapperStyle={styles.columnWrapper}
             />
     </View>
   )

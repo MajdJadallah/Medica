@@ -69,7 +69,7 @@ const savePress=async()=>{
   <ScrollView contentContainerStyle={styles.scrollContent}>
    <View style={styles.imageContainer}>
      <Image
-       source={require('../assets/advice1.png')}
+       source={{uri:'https://res.cloudinary.com/dvmodwtsk/image/upload/v1696321873/nv1uea2glgphswm4yadw.jpg'}}
        style={styles.profileImage}
      />
      <TouchableOpacity style={styles.upload} onPress={handleImageUpload}>
@@ -147,6 +147,7 @@ const savePress=async()=>{
 
   );
 };
+
 
 const styles = StyleSheet.create({
  container: {

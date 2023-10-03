@@ -5,6 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 const logo = require("../assets/logo.png");
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+
 function SignIn() {
   const navigation = useNavigation();
 
@@ -15,84 +16,89 @@ function SignIn() {
   const [passwordError, setPasswordError] = useState("");
   const [loginError, setLoginError] = useState("");
 
- const getData = async (key) => {
-   try {
-     const value = await AsyncStorage.getItem(key);
-     return JSON.parse(value); // Parse the value here
-   } catch (error) {
-     console.log('Error retrieving data:', error);
-     return null;
-   }
- };
+  const getData = async (key) => {
+    try {
+      const value = await AsyncStorage.getItem(key);
+      return JSON.parse(value); // Parse the value here
+    } catch (error) {
+      console.log('Error retrieving data:', error);
+      return null;
+    }
+  };
 
- const validateEmail = (email) => {
-  if (!email) {
-    setEmailError("Email is required");
-    return false;
-  } else {
-    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-    if (!emailPattern.test(email)) {
-      setEmailError("Invalid email format");
+  const validateEmail = (email) => {
+    if (!email) {
+      setEmailError("Email is required");
       return false;
     } else {
-      setEmailError("");
+      const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+      if (!emailPattern.test(email)) {
+        setEmailError("Invalid email format");
+        return false;
+      } else {
+        setEmailError("");
+        return true;
+      }
+    }
+  };
+
+  const validatePassword = (password) => {
+    if (!password) {
+      setPasswordError("Password is required");
+      return false;
+    } else {
+      setPasswordError("");
       return true;
     }
-  }
- };
+  };
+  const onSignInPress = async () => {
+    validateEmail(email);
+    validatePassword(password);
+    if (validateEmail(email) && validatePassword(password)) {
+      try {
+        let url = 'https://6e2e-2a01-9700-159d-7900-81ed-c2e1-1e39-b52.ngrok-free.app/api/users/login';
 
- const validatePassword = (password) => {
-  if (!password) {
-    setPasswordError("Password is required");
-    return false;
-  } else {
-    setPasswordError("");
-    return true;
-  }
- };
-const onSignInPress = async () => {
- validateEmail(email);
- validatePassword(password);
- if (validateEmail(email) && validatePassword(password)) {
-   try {
-    let url = 'https://6e2e-2a01-9700-159d-7900-81ed-c2e1-1e39-b52.ngrok-free.app/api/users/login';
-    if (role === 'doctor') {
-    url = 'https://6e2e-2a01-9700-159d-7900-81ed-c2e1-1e39-b52.ngrok-free.app/api/doctors/login';
-    }
-    const response = await axios.post(url,{ email, password }
-    );
-    if (response.status === 200) {
-    const { adminId } = response.data;
-    const { doctorId } = response.data;
-    const profile = await getData('profile');
-    //navigation.navigate("Profile", { adminId , role ,doctorId});
-    if (profile === true) { 
-      navigation.navigate("Home", { adminId , role ,doctorId});
-    } else {
-      navigation.navigate("Profile",{ adminId , role ,doctorId});
-    }
-    } else if (response.status === 404) {
-      setLoginError("User not found. Sign up instead.");
-    } else if (response.status === 400 || response.status === 401) {
-      setLoginError(response.data.error);
-    } else {
-      setLoginError("Email or password not correct");
-    }
-   } catch (error) {
-    if (error.response) {
-      if (error.response.status === 404) {
-        setLoginError("User not found. Sign up instead.");
-      } else if (error.response.status === 400 || error.response.status === 401) {
-        setLoginError(error.response.data.error);
-      } else {
-        setLoginError("Email or password not correct");
+        if (role === 'doctor') {
+        url = 'https://6e2e-2a01-9700-159d-7900-81ed-c2e1-1e39-b52.ngrok-free.app/api/doctors/login';
+        }
+        const response = await axios.post(url,{ email, password }
+        );
+        if (response.status === 200) {
+        const { adminId } = response.data;
+        const { doctorId } = response.data;
+
+        const profile = await getData('Home');
+        // navigation.navigate("Profile", { adminId , role ,doctorId});
+        if (profile === true) { 
+          navigation.navigate("Profile",{ adminId , role ,doctorId});
+        } else {
+          navigation.navigate("Home", { adminId , role ,doctorId});
+        }
+        } else if (response.status === 404) {
+          setLoginError("User not found. Sign up instead.");
+        } else if (response.status === 400 || response.status === 401) {
+          setLoginError(response.data.error);
+        } else {
+          setLoginError("Email or password not correct");
+        }
+      } catch (error) {
+        if (error.response) {
+          // Axios error with a response from the server
+          if (error.response.status === 404) {
+            setLoginError("User not found. Sign up instead.");
+          } else if (error.response.status === 400 || error.response.status === 401) {
+            setLoginError(error.response.data.error);
+          } else {
+            setLoginError("Email or password not correct");
+          }
+        } else {
+          // Other network or client-side error
+          console.log("Error:", error);
+          // setLoginError("An error occurred during login");
+        }
       }
-    } else {
-      console.log("Error:", error);
     }
-   }
- }
-};
+  };
   return (
     <View style={styles.container}>
     <Image source={logo} />

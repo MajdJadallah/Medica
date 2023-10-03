@@ -3,38 +3,35 @@ import {View,Text,StyleSheet,FlatList,TouchableOpacity,Image,ScrollView,} from "
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
 
- const filterDoctor = ["All", "General", "Neurologist", "Cardiologist", "Dermatologist", "Gastroenterologist", "Orthopedic Surgeon"];
- const filterLocation=[  "Amman","Zarqa","Irbid","Balqa","Mafraq","Jerash","Ajloun","Karak","Tafilah","Ma'an","Aqaba","Madaba"];
+ const filterDoctor = ["All", "Cardiologist", "Gastroenterologist", "Pediatrician", "Dermatologist"];
+ const filterLocation=[ "All","Amman","Zarqa","Irbid","Balqa","Mafraq","Jerash","Ajloun","Karak","Tafilah","Ma'an","Aqaba","Madaba"];
 
 function Doctors({ route }) {
   const { category } = route.params;
   const [doctors,setDoctors]=useState([]);
   const [filters,setFilters]=useState([]);
+  const [valueFilters,setValueFilters]=useState('All');
 
-  useEffect(() => {
-    axios.get(" https://6e2e-2a01-9700-159d-7900-81ed-c2e1-1e39-b52.ngrok-free.app/api/doctors")
-      .then((response) => {
-        const allDoctors = response.data;
-        console.log(allDoctors);
-        let filteredDoctors = [];
-        if (category === "Nutrition") {
-          filteredDoctors = allDoctors.filter((doctor) => doctor.type === "Nutrition");
-          setFilters(filterLocation);
-        } else if (category === "Physiology") {
-          filteredDoctors = allDoctors.filter((doctor) => doctor.type === "Physiology");
-          setFilters(filterLocation);
-        } else {
-          filteredDoctors = allDoctors.filter((doctor) => doctor.type === "Medical");
-          setFilters(filterDoctor);
-        }
+useEffect(() => {
+  axios.get(" https://6e2e-2a01-9700-159d-7900-81ed-c2e1-1e39-b52.ngrok-free.app/api/doctors")
+    .then((response) => {
+      const allDoctors = response.data;
+      let filteredDoctors = [];
+      if (category === "Nutrition" || category==="Physiology") {
+        filteredDoctors = allDoctors.filter((doctor) => doctor.type == category && (valueFilters == "All" || doctor.location == valueFilters));
+        setFilters(filterLocation);
         setDoctors(filteredDoctors);
-        console.log('Data received:', filteredDoctors);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-  }, [category]);
-
+      }else {
+        filteredDoctors = allDoctors.filter((doctor) => doctor.type == category &&  (valueFilters == "All" || doctor.specialitst == valueFilters));
+        console.log(`allDoctors :${allDoctors}`);
+         setFilters(filterDoctor);
+         setDoctors(filteredDoctors);
+       }
+     })
+     .catch((error) => {
+     console.error('Error:', error);
+     });
+ }, [category,valueFilters]);
   const renderItem = ({ item }) => (
     <TouchableOpacity style={styles.card}>
       <View style={styles.iconContainer}>
@@ -57,10 +54,21 @@ function Doctors({ route }) {
   );
 
   const renderFilter = (filter) => (
-    <TouchableOpacity style={styles.filter} key={filter}>
-      <Text style={styles.textFilter}>{filter}</Text>
+    <TouchableOpacity
+      style={[
+        styles.filter,
+        valueFilters === filter ? styles.activeFilter : null,
+      ]}
+      key={filter}
+      onPress={() => {
+        setValueFilters(filter);
+      }}>
+      <Text style={[styles.textFilter, valueFilters === filter ? styles.activeText : null]}>{filter}</Text>
     </TouchableOpacity>
   );
+  //console.log('value of filters:');
+
+  //console.log(valueFilters);
   return (
     <View style={styles.container}>
         <ScrollView style={styles.filters} horizontal>
@@ -140,7 +148,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginBottom: 20,
     minHeight:50,
-    height:50
+    maxHeight:50
   },
   filter: {
     borderWidth: 2,
@@ -153,6 +161,12 @@ const styles = StyleSheet.create({
   textFilter: {
     color: "#5774CB",
     fontWeight: "bold",
+  },
+  activeFilter: {
+    backgroundColor: "#5774CB",
+  },
+  activeText: {
+    color: "#fff",
   },
   like:{
     flexDirection:"row",

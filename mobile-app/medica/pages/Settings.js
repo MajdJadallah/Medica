@@ -17,11 +17,15 @@ function Settings() {
 
   <ScrollView contentContainerStyle={styles.scrollContent}>
   <View style={styles.imageContainer}>
-     <Image
-       source={{uri:user.avatar}}
-       style={styles.profileImage}
-     />
-             <Text style={styles.name}>{user.username}</Text>
+  <Image
+    source={
+      user.avatar === undefined
+        ? { uri: 'https://res.cloudinary.com/dvmodwtsk/image/upload/v1696321873/nv1uea2glgphswm4yadw.jpg'}
+        : { uri: user.avatar }
+    }
+    style={styles.profileImage}
+  />
+        <Text style={styles.name}>{user.username}</Text> 
 
         <Text style={styles.phone}>{user.phone}</Text>
    </View>
@@ -68,89 +72,91 @@ function Settings() {
 };
 
 const styles = StyleSheet.create({
-    container: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: '#fff',
-    },
-    scrollContent: {
-      flexGrow: 1,
-      padding: 20,
-      paddingBottom: 100,
-    },
-    imageContainer: {
-    alignItems: 'center',
-    borderBottomColor: "#eee",
-    borderBottomWidth: 2,
-    marginBottom:40
-    },
-    profileImage: {
-    width: 150,
-    height: 150,
-    borderRadius: 75,
-    marginBottom: 20,
-    },
-    input: {
-    borderBottomWidth: 1,
-    borderColor: '#ccc',
-    marginBottom: 20,
-    paddingVertical: 10,
-    },
-    saveButton: {
-    paddingVertical: 15,
-    alignItems: 'center',
-    backgroundColor: "#5774CB",
-    borderRadius: 15,
-    padding: 10,
-    width: '100%',
-    },
-    saveButtonText: {
-    fontWeight: 'bold',
-    color: "#fff",
-    fontSize: 20,
-    textAlign: "center",
-    },
-    upload: {
-     alignItems: 'center',
-     backgroundColor: "#5774CB",
-     borderRadius: 5,
-     padding: 15,
-     },
-     uploadText: {
-     color: "#fff",
-     textAlign: "center",
-     },
-     name:{
-        fontSize:24
-     },
-     phone:{
-        marginBottom:20
-     },
-     label:{
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom:30
-     },
-     section:{
-        fontSize:18,
-        fontWeight: "bold",
-     },
-     logout:{
-        padding:10,
-        borderRadius: 5,
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    log:{
-        color: "red",
-        fontSize:18,
-    },
-    vieww:{
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    }
-   });
+container: {
+flex: 1,
+padding: 20,
+backgroundColor: '#fff',
+},
+scrollContent: {
+flexGrow: 1,
+padding: 20,
+paddingBottom: 100,
+},
+imageContainer: {
+alignItems: 'center',
+borderBottomColor: "#eee",
+borderBottomWidth: 2,
+marginBottom:40
+},
+profileImage: {
+width: 150,
+height: 150,
+borderRadius: 75,
+marginBottom: 20,
+},
+input: {
+borderBottomWidth: 1,
+borderColor: '#ccc',
+marginBottom: 20,
+paddingVertical: 10,
+},
+saveButton: {
+paddingVertical: 15,
+alignItems: 'center',
+backgroundColor: "#5774CB",
+borderRadius: 15,
+padding: 10,
+width: '100%',
+},
+saveButtonText: {
+fontWeight: 'bold',
+color: "#fff",
+fontSize: 20,
+textAlign: "center",
+},
+upload: {
+alignItems: 'center',
+backgroundColor: "#5774CB",
+borderRadius: 5,
+padding: 15,
+},
+uploadText: {
+color: "#fff",
+textAlign: "center",
+},
+name:{
+fontSize:24,
+fontWeight: "bold",
+},
+phone:{
+marginBottom:20,
+fontWeight: "bold",
+},
+label:{
+flexDirection: 'row',
+justifyContent: 'space-between',
+alignItems: 'center',
+marginBottom:30
+},
+section:{
+fontSize:18,
+fontWeight: "bold",
+},
+logout:{
+padding:10,
+borderRadius: 5,
+flexDirection: 'row',
+alignItems: 'center',
+},
+log:{
+color: "red",
+fontSize:18,
+},
+vieww:{
+flexDirection: 'row',
+justifyContent: 'space-between',
+alignItems: 'center',
+}
+});
 
 export default Settings;

@@ -10,7 +10,6 @@ const IllenseRoutes=require("./routes/IllensesRouter")
 const mongoose= require('mongoose');
 
 const{
-    UserController,
     CreateUser,
     signUp,
     login,

@@ -111,6 +111,7 @@ const getuser= async (req,res)=>{
       const month = String(currentDate.getMonth() + 1).padStart(2, '0');
       const year = String(currentDate.getFullYear()).slice(-2);
       const formattedDate = `${day}/${month}/${year}`;
+
       console.log(`User ${user.email} logged in at ${formattedDate}`);
       return res.json({ token, adminId: user._id });
     } catch (err) {
@@ -156,7 +157,7 @@ const login = async (req,res)=> {
     if (!admin) {
       return res.json({ message: "User not found" });
     }    const isPasswordValid= await bcrypt.compare(password,admin.password);
-if (!isPasswordValid) {
+  if (!isPasswordValid) {
       return res.json({ message: "Username or password is incorrect" });
     }    //token to make user login to application
     const token =jwt.sign({id:admin._id},process.env.SECRET)

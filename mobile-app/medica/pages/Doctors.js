@@ -75,7 +75,7 @@ useEffect(() => {
       <FlatList
         data={doctors}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item}
       />
     </View>
   );

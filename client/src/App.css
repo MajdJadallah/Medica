@@ -42,8 +42,13 @@ color: rgb(235, 0, 0);
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* min-height: 100vh; */
+  min-height: 100vh;
   background: #F5F5F9;
+}
+#avatarUserTable{
+  height: 50px;
+  width: 50px;
+  border-radius: 100%;
 }
 /*************************DashBoard************************/
 /* /____________________Aside______________________/ */

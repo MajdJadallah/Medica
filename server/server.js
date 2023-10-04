@@ -15,6 +15,7 @@ const{
     signUp,
     login,
     getadmin,
+    getAdmins
 } = require ('../server/controllers/User.js');
 
 const app = express();
@@ -64,3 +65,4 @@ app.post('/register', signUp);
 //login
 app.post('/login', login)
 app.get('/admin/:id', getadmin)
+app.get('/admin', getAdmins)

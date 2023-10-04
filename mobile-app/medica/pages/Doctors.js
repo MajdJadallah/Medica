@@ -66,9 +66,7 @@ useEffect(() => {
       <Text style={[styles.textFilter, valueFilters === filter ? styles.activeText : null]}>{filter}</Text>
     </TouchableOpacity>
   );
-  //console.log('value of filters:');
 
-  //console.log(valueFilters);
   return (
     <View style={styles.container}>
         <ScrollView style={styles.filters} horizontal>

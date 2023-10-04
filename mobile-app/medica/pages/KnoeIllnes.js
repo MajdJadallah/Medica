@@ -12,7 +12,7 @@ function KnoeIllnes() {
 const [issue,setIssue] = useState("");
 const [issues,setIssues] = useState("");
     useEffect(() => {
-      
++
       axios.get(" https://6e2e-2a01-9700-159d-7900-81ed-c2e1-1e39-b52.ngrok-free.app/api/illenese")
       .then((response) => {
       const issues = response.data.Illenses;

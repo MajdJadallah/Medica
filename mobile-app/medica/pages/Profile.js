@@ -73,7 +73,7 @@ const savePress=async()=>{
        style={styles.profileImage}
      />
      <TouchableOpacity style={styles.upload} onPress={handleImageUpload}>
-        <Text style={styles.uploadText}>Upload Imag</Text>
+        <Text style={styles.uploadText}>Upload</Text>
       </TouchableOpacity>
    </View>
    <TextInput

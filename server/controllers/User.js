@@ -181,4 +181,19 @@ const getadmin= async (req,res)=>{
   }
 
 
-  module.exports ={UserController,CreateUser,signUp,login,getuser,updateUser,loginUser,getadmin}
+  const getAdmins = async (req, res) => {
+    try {
+      const admins = await AdminModel.find({});
+      if (!admins || admins.length === 0) {
+        return res.status(404).json({ error: "No admin users found" });
+      }
+      res.status(200).json({ admins });
+    } catch (error) {
+      console.error("Error fetching admin users:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  };
+  
+  
+
+  module.exports ={UserController,CreateUser,signUp,login,getuser,updateUser,loginUser,getadmin,getAdmins}

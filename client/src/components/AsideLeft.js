@@ -14,11 +14,11 @@ import manage from '../assets/manage.svg'
 import { useNavigate, useParams } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 
-function AsideLeft() {
+function AsideLeft({ role }) {
 
     const navigate = useNavigate();
     const [cookies, setCookie, removeCookie] = useCookies(['access_token']);
-    const { username } = useParams(); 
+    const { username } = useParams();
 
     const userId=localStorage.getItem("userID");
     const removeLocalStorage=()=>{
@@ -80,8 +80,6 @@ function AsideLeft() {
         </li>
     </ul>
     </div>
-
-
 
 
     <div className="logout">

@@ -14,7 +14,8 @@ function Profile() {
       try {
         const response = await axios.get(`http://localhost:8080/admin/${userId}`);
         setData(response.data.user);
-        console.log(response.data.user); // Log user data
+        localStorage.setItem('admin',response.data.user.role);
+        console.log(response.data.user.role); // Log user data
       } catch (error) {
         console.log(error);
       }
@@ -23,7 +24,7 @@ function Profile() {
     getUser();
   }, [userId]);
 
-  const username = data.username || ''; // Ensure a default value if data.username is undefined
+  const username = data.username || '';
 
   return (
     <div className='row d-flex m-0' id='dashboard'>

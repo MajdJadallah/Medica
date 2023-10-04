@@ -11,14 +11,14 @@ import {
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 const categories = [
-  {id: "1",name: "Community one",image: require("../assets/community1.png"),specialist: "CFS",members:4267},
-  {id: "2",name: "Community two",image: require("../assets/community2.png"),specialist: "CKD",members:4942},
-  {id: "3",name: "Community three",image: require("../assets/community3.png"),specialist: "MS",members:6362},
-  {id: "4",name: "Community four",image: require("../assets/community4.png"),specialist: "SLE",members:2504},
-  {id: "5",name: "Community five",image: require("../assets/doctor5.png"),specialist: "CFS",members:3837},
+  {id: "1",name: "Rheumatoid",image: require("../assets/community1.png"),specialist: "CFS",members:4267},
+  {id: "2",name: "Addison's Disease",image: require("../assets/community2.png"),specialist: "CKD",members:4942},
+  {id: "3",name: "Muscle Atrophy",image: require("../assets/community3.png"),specialist: "MS",members:6362},
+  {id: "4",name: "Multiple Sclerosis",image: require("../assets/community4.png"),specialist: "SLE",members:2504},
+  {id: "5",name: "Parkinson's Disease",image: require("../assets/doctor5.png"),specialist: "CFS",members:3837},
   ];
 
-  const filters = ["All", "SLE", "MS", "CKD", "CFS"];
+  const filters = ["All", "Rheumatoid", "Addison's Disease", "Muscle Atrophy", "Parkinson's Disease"];
 
 function Hospitals() {
   const renderItem = ({ item }) => (
@@ -36,7 +36,6 @@ function Hospitals() {
           <Text style={styles.specialist}>{item.specialist}</Text>
           <Text style={styles.reviewed}>( {item.members} members ) </Text>
           </View>
-          {/* <Text style={styles.reviewed}>( {item.members} members ) </Text> */}
         </View>
       </View>
     </TouchableOpacity>

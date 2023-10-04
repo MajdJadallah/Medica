@@ -10,7 +10,6 @@ function UsersTable() {
     Axios.get('http://localhost:8080/api/users')
       .then((response) => {
         setUsers(response.data.users);
-        console.log(users);
       })
       .catch((error) => {
         console.error('Error fetching user data:', error);
@@ -31,8 +30,9 @@ function UsersTable() {
               <table className="table" id='user-table'>
                 <thead>
                   <tr>
-                    <th scope="col">id</th>
+                    <th scope="col"></th>
                     <th scope="col">Name</th>
+                    <th scope="col">Profile</th>
                     <th scope="col">Gender</th>
                     <th scope="col">Email</th>
                     <th scope="col">Date</th>
@@ -42,8 +42,9 @@ function UsersTable() {
                 <tbody>
                   {users.map((user,index) => (
                     <tr key={user.id}>
-                      <th scope="row">{index+1}</th>
+                      <th scope="row"></th>
                       <td>{user.username}</td>
+                      <td><img src={user.avatar} alt={user.username}  id='avatarUserTable' /></td>
                       <td>{user.gender}</td>
                       <td>{user.email}</td>
                       <td>{user.date}</td>

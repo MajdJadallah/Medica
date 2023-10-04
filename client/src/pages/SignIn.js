@@ -37,7 +37,7 @@ const Login = () => {
       const response = await axios.post('http://localhost:8080/login', {
         email: values.email,
         password: values.password,
-        role: values.role, // Include the selected role in the request
+        role: values.role,
       });
 
       if (response.data.token && response.data.adminId) {
